@@ -1,0 +1,134 @@
+[DEFAULT]
+DATADIR=D:\inetpub\wwwroot\EuclidWebsite\cvbase_support\cgi-bin\ERRORLOG\
+ONLINEPAYMENTTYPE=PAYPAL
+LOGINURL=https://www.euclidtechnology.com/cvweb/cgi-bin/utilities.dll/openpage?wrp=mainlogin.htm
+--RESTRICTALLDLL=ML
+FORCETEMPLATELOAD=Y
+UNDERCONSTRUCTION=N
+POSTONLY=N
+MIXEDCOOKIE=Y
+RESTRICTALLDLL=PU
+ENCRYPTCUSTOMERPWD=N
+SSLCERTIFICATE=N
+ALLOWEDFILEEXTENSIONS=jpg,jpeg,doc,docx,pdf,bmp,txt,ppt,pptx,xls,xlsx,gif,png,txt,csv,rtf,zip,msg,xps
+ALLOWPARTIALPAYMENT=Y
+AUTHLOGINID=4xG28Zwx
+AUTHORIZENETMULTICOMPANY=N
+AUTHTRANKEY=79p5RvM2k2me89Un
+AUTHURL=https://secure.authorize.net/gateway/transact.dll
+AUTOENCRYPTCUSTOMERCD=N
+BOOTHHOLDTIME=5
+COMMITTEEOFFICERSFILTER=PELECT,PPRES,PRES,SECTRE,SECY,TREAS,VCHAIR,VPRES
+COOKIETIME=0
+CURRENCYDEFAULTFORMAT=$0.00
+CURRENCYFORMAT=Y
+DATEDEFAULTFORMAT=M/D/YYYY
+DUPCHECKLIST=FIRSTNAME,LASTNAME,EMAIL
+EMAILTRACKLINKINCOOKIE=Y
+ENCRYPTFIELDSPWD=we were born to be princes of the universe
+EVENTSHOWEARLYPRICE=Y
+EVENTSHOWNONMEMBERPRICES=N
+EXHIBITLOG=Y
+EXHIBITLOGNAME=exhibitlog.txt
+FILESTORAGELOCATION=D:\inetpub\wwwroot\EuclidWebsite\cvbase_support\AI_Documents\2009\
+FORGETPWDREQUIREDFIELDS=EMAIL,WEBUSERID
+FUNCTIONOVERLIMITMSG=This session is full.
+FUNCTIONWAITLISTMSG=This session is full, and you will be placed on the waiting list.
+ITEMCOLOR=#EEEEDD
+KEEPIPADDRESSLOG=Y
+MULTIDAYEVENTVIEW=Y
+MULTILANGUAGE=Y
+MULTILANGUAGEAUTOTRANSLATE=Y
+NAVIGATEBYPOST=N
+NEWCUSTOMERKEYFIELDS=firstname,lastname,email
+NODOCUMENTIMAGE=D:\inetpub\wwwroot\cvbase_support\images\nodoc.png
+NOIMAGE=D:\inetpub\wwwroots\cvbase_support\images\product.png
+NOMEMBERIMAGE=D:\inetpub\wwwroot\cvbase_support\images\Photo-NotAvail.jpg
+NOPRODUCTIMAGE=D:\inetpub\wwwroot\cvbase_support\images\product.png
+PAYEENAME=WEBUSER
+PROCESSOR=FDCN
+SECURECOOKIE=N
+SERVERIPLIST=66.93.106.2,127.0.0.1,192.168.160.134
+SESSIONIPCHECKOFF=Y
+SHOWEMPTYINFOFORM=Y
+SHOWNONMODERATEDRATINGCOMMENTS=Y
+SHOWNONMODERATEDENDORSECOMMENTS=Y
+SKIPZEROAMT=Y
+TAXBYFIELD=ZIP
+TAXSHIPPING=N
+TROUBLESHOOTMODE=N
+USEFUNCTIONLIMIT=Y
+USEFUNCTIONWAITLIST=N
+USESPECIALCODES=Y
+[CONNECTION]
+DATABASENAME=EUCLID_LIVE
+SERVERNAME=ET-FP-01
+PROVIDER=AUTO
+ENCRYPT=N
+DISCONNECTEDMODE=Y
+LOCALFAILOVER=Y
+POOLING=Y
+POOLINGVALIDATE=Y
+MAXPOOLSIZE=500
+POOLCONNECTIONLIFETIME=0
+[EMAIL]
+EMAILDIR=C:\inetpub\mailroot\Pickup\
+FROMNAME=Euclid Technology
+FROMADDRESS=support@euclidtechnology.com
+USESMTP=Y
+[SQLS]
+EMPLOYMENT=select * from EMPLOYMENTH
+GETEAVUSERAIS=select namefind, ACTIONSTT, ACTIONASSIGNEDTOCD, LISTITEMNUM, ACTIONTYPE, ACTIONCOMMENTS, LISTMEMBERS.UPDATETMS FROM LISTMEMBERS INNER JOIN ORGANIZATION ON LISTMEMBERS.MEMBERCD = ORGANIZATION.ORGCD WHERE ACTIONSTT IN ('Out-Standing', 'On Hold', '') AND ACTIONASSIGNEDTOCD = :user or LISTITEMNUM = :aiNum
+USERNAMECHECK=select * from CUSTOMER where WEBUSERID = :code
+CAMPAIGNS=SELECT CAMPAIGNCD, CAMPAIGNNAME, STARTDATE, ENDDATE, CAMPAIGNTYPE, TARGET FROM CAMPAIGN
+SURVEYS=SELECT * FROM TEST_MASTER WHERE ACTIVEFLG='Y'
+PRODUCTS=SELECT * FROM INVOICE WHERE payeetypecd='O'
+WHOKNOWSWHO=select * from WHOKNOWSWHO with (nolock)
+WHOKNOWSWHOPENDING=select c.customercd, c.firstname,c.lastname,c.orgname,c.jobtitle, dbo.fnCheckCustomerHasPicture(c.customercd) as HASPICTURE, w.* from WHOKNOWSWHO w with (nolock) join customer c with (nolock)  on c.customercd=w.kmembercd
+CEO=select C.* from customer C join whoknowswho W on C.customercd = W.kmembercd where W.relationship='Primary Contact'
+COMMITTEE=select c.typecd, c.committeecd, c.statustt, c.name from committee c
+JOINED=select * from indcommittee
+RELATEDPRODUCTS=select * from productrelation
+COMMITTEEOFF=select I.*, C.CUSTOMERCD,C.FIRSTNAME, C.LASTNAME, C.ORGNAME, C.WORKPHONE,C.FAXPHONE, C.CITY,C.STATECD FROM INDCOMMITTEE I JOIN CUSTOMER C ON C.CUSTOMERCD=I.CUSTOMERCD WHERE CPOSITION IN ('CHAIR','VCHAIR','SECTRE','SECY')
+AUTHORS=SELECT * FROM PROJECT_TEAMMEMBERS
+abstractListTG1=select * from abstracttopicref a join abstracttopics b on b.abstracttopic = a.abstracttopic where b.groupcd = 'tg1'
+abstractReviewList=select at.groupcd, at.allmembersflg, at.reviewcommitteecd, at.abstracttopic, at.selectioncommitteecd, at.leadreviewercd from abstracttopics at join abstractgroup ag on ag.groupcd=at.groupcd and ag.onwebflg='Y' and ag.finalreviewdate>getdate() where (at.allmembersflg='Y' or at.reviewcommitteecd is not null or at.selectioncommitteecd is not null or at.leadreviewercd is not null)
+abstractReviewList2=select at.groupcd, at.allmembersflg, at.reviewcommitteecd, at.abstracttopic, at.selectioncommitteecd, at.leadreviewercd from abstracttopics at join abstractgroup ag on ag.groupcd=at.groupcd and ag.onwebflg='Y' and ag.finalreviewdate>getdate() where (at.allmembersflg='Y' or at.reviewcommitteecd is not null or at.selectioncommitteecd is not null or at.leadreviewercd is not null)
+abstractSelectList=select at.groupcd, allmembersflg, selectioncommitteecd from abstracttopics at join abstractgroup ag on ag.groupcd=at.groupcd and ag.onwebflg='Y' and ag.finalreviewdate>getdate() where at.selectioncommitteecd is not null
+getSurvey=select * from abstracttopics
+getSurvey2=select * from abstracttopics
+surveyResponses=select * from test_customer_response
+votedList=select * from test_customer_response
+groupList=select * from abstractgroup
+topicList=select * from abstracttopics
+topicList_ref=select * from abstracttopicref
+EVENTTRAINER=select C.FIRSTNAME, C.LASTNAME, C.CUSTOMERCD, C.JOBTITLE, C.ORGNAME, ET.*, S.TITLE as FUNCTIONNAME, S.* from eventtrainer ET join CUSTOMER C ON ET.CUSTOMERCD = C.CUSTOMERCD join SESSIONFUNCTION S ON ET.FUNCTIONCD = S.FUNCTIONCD and ET.SESSIONALTCD = S.SESSIONALTCD
+SPEAKERLIST=select C.FIRSTNAME, C.LASTNAME, C.CUSTOMERCD, C.JOBTITLE, C.ORGNAME, ET.* from eventtrainer ET join CUSTOMER C ON ET.CUSTOMERCD = C.CUSTOMERCD where ET.FUNCTIONCD = :functioncode and ET.SESSIONALTCD=:sessioncode
+committeedropdown=select s.subsriptionname, c.name, c.committeecd, c.parentcd, c.typecd from subscriptionref s join committee c on c.committeecd=s.udef5txt
+indcommittee=select * FROM vw_IndCommittee_NON_Leader
+USERCOMM=SELECT I.*, C.* FROM INDCOMMITTEE I JOIN COMMITTEE C ON I.COMMITTEECD = C.COMMITTEECD
+AI_EMAIL=SELECT D.USERCD, D.EMPCD, E.EMPCD, E.EMAIL FROM DATABASE_USER D JOIN EMPLOYEE E ON D.EMPCD = E.EMPCD
+UGM2011=SELECT r.SESSIONALTCD,r.CANCELLEDFLG,c.CUSTOMERCD, c.FIRSTNAME,c.LASTNAME,c.JOBTITLE,c.ORGNAME,c.ORGCD,c.CITY,c.STATECD,CM.CVCONNECTUSERID, H.NOTE AS WEBPROFILE FROM CUSTOMER C with (nolock) LEFT OUTER JOIN CUSTOMER_MORE CM with (nolock) ON C.CUSTOMERCD = CM.CUSTOMERCD JOIN INDSESSION R with (nolock) ON R.CUSTOMERCD = C.CUSTOMERCD LEFT OUTER JOIN HTMLNOTE H with (nolock) ON (C.CUSTOMERCD = H.SOURCECD and NOTESOURCE='C')
+EVENTDIRECTORY=SELECT r.SESSIONALTCD,r.CANCELLEDFLG,r.FIRSTTIMERFLG, c.CUSTOMERCD, c.FIRSTNAME,c.LASTNAME,c.JOBTITLE,c.ORGNAME,c.ORGCD,c.CITY,c.STATECD,c.JOINDATE, dbo.fnCheckCustomerHasPicture(c.CUSTOMERCD) as HASPICTURE FROM CUSTOMER C with (nolock) LEFT OUTER JOIN CUSTOMER_MORE CM with (nolock) ON C.CUSTOMERCD = CM.CUSTOMERCD JOIN INDSESSION R with (nolock) ON R.CUSTOMERCD = C.CUSTOMERCD WHERE R.SESSIONALTCD='EUCLIDCVUGC2013'
+SOCIALSUGGEST=select TOP 10 c1.FIRSTNAME,c1.LASTNAME,c1.JOBTITLE,c1.ORGNAME,c1.customercd,c1.ismemberflg,c1.ORGCD, dbo.fnCheckCustomerHasPicture(c1.CUSTOMERCD) as HASPICTURE FROM CUSTOMER C with (nolock) INNER JOIN CUSTOMER C1  with (nolock) ON c.ORGCD = c1.ORGCD
+SOCIALSUGGESTSP=exec dbo.sp_SocialGetSuggestions :customercd
+SOCIALSCORE=exec sp_GetSocialScore :customercd
+HASPICTURE=select customercd from custimage with (nolock) 
+GETPICTUREURLCONNECT=select * from VW_CVCONNECTGETPICTUREURL
+COMMUNITYCONNECTIONS=select w.*, dbo.fnCheckCustomerHasPicture(w.MEMBERCD) AS HASPICTURE, dbo.fnGetCustomerNameFromCode(w.MEMBERTYPE,w.MEMBERCD) as CONNECTFROM,dbo.fnCheckCustomerHasPicture(w.KMEMBERCD) AS KHASPICTURE,dbo.fnGetCustomerNameFromCode(w.KMEMBERTYPE,w.KMEMBERCD) AS CONNECTTO from WHOKNOWSWHO w
+FORUMPOSTS=select * from VW_CVCONNECT_FORUMPOSTS f join VW_CVCONNECTGETPICTUREURL p on f.AuthorId=p.CVCONNECTUSERID
+COMMUNITYNEWMEMBERS=SELECT c.CUSTOMERCD, c.FIRSTNAME,c.LASTNAME,c.JOBTITLE,c.ORGNAME,c.ORGCD,c.CITY,c.STATECD,c.JOINDATE, c.ISMEMBERFLG,c.DONORACKNOWLEDGEFLG,c.CUSTOMERTYPE, dbo.fnCheckCustomerHasPicture(c.CUSTOMERCD) as HASPICTURE FROM CUSTOMER C with (nolock)
+COMMUNITYCOMMENTS=select e.*, c.firstname, c.lastname from dbo.ENTITY_USER_RATINGS e with (nolock) join customer c with (nolock) on e.customercd = c.customercd where e.CUSTOMERCD = e.ENTITYCD
+[REGFORMLOGIN]
+WAITLISTMESSAGE=This event is full.  You will be placed on a waiting list.
+regmsg1=Discount Rate - $525
+regmsg2=Online Rate - $575
+memprice=525
+stdprice=575
+NonMemberPriceMessage=Join Now to become a member and save on this event registration!!
+memmsg=You are logged in and receiving the discounted price.
+stdmsg=Please Login by clicking on the Login link next to the price.
+link1=../../templates/QuickLogin.htm
+link2=../../templates/ID-PW Request.html
+[FCOMMENTS]
+MEAL=Please enter any special dietary requirements.
