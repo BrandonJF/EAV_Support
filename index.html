@@ -2,70 +2,129 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" ng-app="ksa3"> <!--<![endif]-->
-    <head>
-         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-         <script src="app/modules/angular-route.min.js"></script>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<!--[if gt IE 8]><!-->
+<html class="no-js" ng-app="ksa3">
+<!--<![endif]-->
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="app/modules/angular-route.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-      
-        <!-- Common Kendo UI Web CSS -->
-        <link href="styles/kendo.common.min.css" rel="stylesheet" />
-        <!-- Default Kendo UI Web theme CSS -->
-<!--        <link href="styles/kendo.default.min.css" rel="stylesheet" />-->
-        <link href="styles/kendo.flat.min.css" rel="stylesheet">
-          <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        
-        <!-- Euclid Styles-->
-        <link rel="stylesheet" href="css/styles.css">
-        <!-- jQuery JavaScript -->
-        <script src="js/jquery.min.js"></script>
-        <!-- Kendo UI Web combined JavaScript -->
-        <script src="js/kendo.web.min.js"></script>
-       
-    </head>
-    <body ng-controller="MainController">
-        <!--[if lt IE 7]>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
+    <!-- Common Kendo UI Web CSS -->
+    <link href="styles/kendo.common.min.css" rel="stylesheet" />
+    <!-- Default Kendo UI Web theme CSS -->
+    <!--        <link href="styles/kendo.default.min.css" rel="stylesheet" />-->
+    <link href="styles/kendo.flat.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!-- Euclid Styles-->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- jQuery JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Kendo UI Web combined JavaScript -->
+    <script src="js/kendo.web.min.js"></script>
+    <!--    Font Awesome Icons-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+</head>
+
+<body ng-controller="MainController">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Euclid ActionView</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            </ul>
+            <!--
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">Action</a>
+                        </li>
+                        <li>
+                            <a href="#">Another action</a>
+                        </li>
+                        <li>
+                            <a href="#">Something else here</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">Separated link</a>
+                        </li>
+                    </ul>
+-->
+            </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+
+    <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
-        <div class="container" ng-view>
+    <!-- Add your site or application content here -->
+    <div class="container-full">
+        <!--    <div class="container-full" ng-view>-->
 
-        
+        <div class="col-xs-2 leftNav">
+            <div class="row userDisplay">
+               <div class="col-xs-12">Logged In<br><span>Brandon John</span></div>
+            </div>
+            <ng-include src="'app/views/leftNav.htm'">
+                <ng-include>
         </div>
+        <div class="col-xs-10 contentArea" ng-view>content</div>
+
+
+    </div>
 
 
 
-        
-<!--        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>-->
 
-	<script src="app/modules/localStorageModule.js"></script>
-	<script src="js/vendor/lodash.min.js"></script>
-	<script src="app/config/main.js"></script>
-	<script src="app/config/routes.js"></script>
-	<script src="app/controllers/MainController.js"></script>
-	<script src="app/controllers/Controller1.js"></script>
-	<script src="app/controllers/Controller2.js"></script>
-	<script src="app/services/service1.js"></script>
-	<script src="app/services/service2.js"></script>
-<!--	<script src="/js/euclidActionView.js"></script>-->
-<!--	<script src="/js/localStorageModule.js"></script>-->
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-    </body>
+    <!--        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>-->
+
+    <script src="app/modules/localStorageModule.js"></script>
+    <script src="js/vendor/lodash.min.js"></script>
+    <script src="app/config/main.js"></script>
+    <script src="app/config/routes.js"></script>
+    <script src="app/controllers/MainController.js"></script>
+    <script src="app/controllers/Controller1.js"></script>
+    <script src="app/controllers/Controller2.js"></script>
+    <script src="app/services/service1.js"></script>
+    <script src="app/services/service2.js"></script>
+    <!--	<script src="/js/euclidActionView.js"></script>-->
+    <!--	<script src="/js/localStorageModule.js"></script>-->
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+</body>
+
 </html>
