@@ -1,4 +1,4 @@
-ksa3.factory("service1", function ($http, localStorageService, service2) {
+eav.factory("service1", function ($http, localStorageService, service2) {
     var service1 = {
         localvar: "https://www.google.com/service?",
         exampleArray: [],

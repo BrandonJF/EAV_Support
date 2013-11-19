@@ -1,4 +1,4 @@
-ksa3.controller("MainController", ['$scope', '$http', '$location', 'localStorageService', 'service1', 'service2',
+eav.controller("MainController", ['$scope', '$http', '$location', 'localStorageService', 'service1', 'service2',
     function ($scope, $http, $location, localStorageService, service1, service2) {
 
 
