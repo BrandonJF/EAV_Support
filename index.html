@@ -3,11 +3,12 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" ng-app="ksa3">
+<html class="no-js" ng-app="eav">
 <!--<![endif]-->
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
     <script src="app/modules/angular-route.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -96,12 +97,19 @@
 
         <div class="col-xs-2 leftNav">
             <div class="row userDisplay">
-               <div class="col-xs-12">Logged In<br><span>Brandon John</span></div>
+               <div class="col-xs-12 row">
+               <div class="col-xs-6">Logged In<br><span>{{username}}</span></div>
+               <div class="col-xs-2">
+<!--                 <img class="userImage img-circle" src="http://www.gravatar.com/avatar/25176ebce93f3d774353c18f630b5520.png" alt="" >-->
+                 </div>
+
+
+               </div>
             </div>
             <ng-include src="'app/views/leftNav.htm'">
                 <ng-include>
         </div>
-        <div class="col-xs-10 contentArea" ng-view>content</div>
+        <div class="col-xs-10 contentArea" ng-view></div>
 
 
     </div>
@@ -116,15 +124,16 @@
     <script src="app/config/main.js"></script>
     <script src="app/config/routes.js"></script>
     <script src="app/controllers/MainController.js"></script>
-    <script src="app/controllers/Controller1.js"></script>
+    <script src="app/controllers/AiController.js"></script>
     <script src="app/controllers/Controller2.js"></script>
-    <script src="app/services/service1.js"></script>
-    <script src="app/services/service2.js"></script>
+    <script src="app/services/aiService.js"></script>
+    <script src="app/services/userService.js"></script>
     <!--	<script src="/js/euclidActionView.js"></script>-->
     <!--	<script src="/js/localStorageModule.js"></script>-->
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script src="js/vendor/pace.min.js"></script>
 </body>
 
 </html>
