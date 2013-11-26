@@ -18,9 +18,12 @@
     color: #000;
     padding: 0.2em 0;
 }
+
+
 /* ==========================================================================
     Euclid Styles
    ========================================================================== */
+
 
 .k-widget,
 .k-widget *,
@@ -37,6 +40,10 @@ body {
 body {
     /* background:url("../img/binding_dark.png");   */
      font-family: 'Open Sans', sans-serif;
+}
+.btn-default {
+    background-image:initial;
+    color:#828B93;
 }
 .container-full {
     margin: 0 auto;
@@ -123,23 +130,224 @@ body {
 box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.2);
 
 }
-.contentHeader i{
+.contentHeader .cntHeaderIcon{
     font-size: 20px;
     margin-right: 15px;
 }
+
+.contentArea{
+background:url("../img/wood_pattern.png");
+}
 .contentBox{
  background:#FFF;
-    border-radius:2px;
+    border-radius:7px;
     padding:10px;
     min-height:470px;
+    max-height:75%;
+    height: 75%;
+    overflow-y:auto;
 }
 
 .contentBox h1{
  font-size: 13px;
     font-weight: 700;
     color: #9CA4AA;
+    border-bottom: 1px solid #E6E3E3;
+    padding-bottom:6px;
 }
 
 .aiListBox{
-    width: 81%;
+/*    width: 81%;*/
+    max-height:85%;
+}
+.aiDetailBox{
+    margin-left: 1%;
+    width: 55%;
+    max-height:85%;
+}
+
+
+.actionTypeSpan{
+	width: 117px;
+	display: inline-block;
+	border-radius: 4px;
+}
+.actionTypeSpan.actionTEST{
+	background-color:#E07182;
+}
+.actionTypeSpan.actionProject{
+	background-color:#ED9E57;
+}
+.actionTypeSpan.actionInprogress{
+	background-color:#61C6CF;
+}
+
+.actionTypeSpan.actionClientReview{
+	background-color:#7D60D5;
+}
+.actionTypeSpan.actionInvestigate{
+	background-color:#F7BF47;
+}
+
+.actionTypeSpan.actionReadytoClose{
+	background-color:#999999;
+}
+.actionTypeSpan.actionDevelopment{
+	background-color:#E3808E;
+}
+.actionTypeSpan.actionProgram{
+	background-color:#5CDC9F;
+}
+.actionTypeSpan.actionEnhancement{
+	background-color:#5CDC9F;
+}
+.actionTypeSpan.actionEmail{
+	background-color: #DC6C5C;
+}
+.actionTypeSpan.actionFixUpdate{
+	background-color: #2E8F61;
+}
+.actionTypeSpan.actionCall{
+	background-color: #09474C;
+}
+.actionTypeSpan.actionMeeting{
+	background-color: #7AA6AA;
+}
+.actionTypeSpan.actionSendBrochure{
+	background-color: #CF8F61;
+}
+
+.userImage{
+    height:42px;
+    width:42px;
+}
+
+
+#aiDetailHeader{
+	background-color: #FBFCFD;
+	color:#6686A5;
+	font-size: 15px;
+	 font-family: "Lato", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+	border-bottom: 1px solid #EDEDED;
+	height: 52px;
+	line-height: 52px;
+	vertical-align: middle;
+	margin-bottom: 20px;
+}
+
+.note{
+	padding-top: 20px;
+	border-bottom: 1px solid #F0F5FB;
+	color: #6685A5;
+	line-height: 1.2em;
+}
+
+.noteHeader{
+	color:#6686A5;
+	font-size: 13px;
+	 font-family: "Lato", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+}
+
+.noteHeader i{
+color:#248FAF;
+font-size: 14px;
+margin-right: 4px;
+vertical-align: top;
+}
+
+.timeStamp{
+	float: right;
+font-size: 12px;
+color: #858E92;
+}
+
+#details{
+ max-height: 500px;
+overflow-y: auto;
+    max-height: 85%;
+}
+
+.aiListBox .list-group{
+/* max-height: 500px;*/
+overflow-y: auto;
+    max-height: 90%;
+padding-bottom: 0;
+margin-bottom: 0;
+}
+
+.clientListBox {
+    height:auto;
+}
+
+
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: #248faf;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  -webkit-transform: translateX(100%) translateY(-100%) rotate(45deg);
+  transform: translateX(100%) translateY(-100%) rotate(45deg);
+  pointer-events: none;
+}
+
+.pace.pace-active .pace-activity {
+  -webkit-transform: translateX(50%) translateY(-50%) rotate(45deg);
+  transform: translateX(50%) translateY(-50%) rotate(45deg);
+}
+
+.pace .pace-activity::before,
+.pace .pace-activity::after {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    display: block;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    content: '';
+}
+
+.pace .pace-activity::before {
+    margin-left: -40px;
+    width: 80px;
+    height: 80px;
+    border-right-color: rgba(0, 0, 0, .2);
+    border-left-color: rgba(0, 0, 0, .2);
+    -webkit-animation: pace-rotation 3s linear infinite;
+    animation: pace-rotation 3s linear infinite;
+}
+
+.pace .pace-activity::after {
+    bottom: 50px;
+    margin-left: -20px;
+    width: 40px;
+    height: 40px;
+    border-top-color: rgba(0, 0, 0, .2);
+    border-bottom-color: rgba(0, 0, 0, .2);
+    -webkit-animation: pace-rotation 1s linear infinite;
+    animation: pace-rotation 1s linear infinite;
+}
+
+@-webkit-keyframes pace-rotation {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); }
+}
+@keyframes pace-rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(359deg); }
 }
