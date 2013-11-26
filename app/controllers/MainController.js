@@ -1,11 +1,19 @@
-eav.controller("MainController", ['$scope', '$http', '$location', 'localStorageService', 'service1', 'service2',
-    function ($scope, $http, $location, localStorageService, service1, service2) {
+eav.controller("MainController", ['$scope', '$http', '$location', 'localStorageService', 'aiService', 'userService',
+    function ($scope, $http, $location, localStorageService, aiService, userService) {
 
 
         $scope.mainCtrlVariables = {
             variableWithinObject: [],
-            username: "TestUser"
         };
+
+        $scope.username = config.username;
+        $scope.navigateTo = function (path) {
+            $location.path(path);
+        }
+
+        $scope.openOnSupport = function(aiNumber){
+         aiService.openUserAi(aiNumber);
+        }
 
 
 

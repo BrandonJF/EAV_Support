@@ -1,5 +1,5 @@
-ksa3.controller("Controller2", ['$scope', '$http', '$location', 'localStorageService', 'service1', 'service2',
-    function ($scope, $http, $location, localStorageService, service1, service2) {
+eav.controller("Controller2", ['$scope', '$http', '$location', 'localStorageService', 'aiService', 'userService',
+    function ($scope, $http, $location, localStorageService, aiService, userService) {
 
         $scope.scopeVariableExample = {
             variableWithinObject: [],
