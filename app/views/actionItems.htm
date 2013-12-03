@@ -18,13 +18,9 @@
 <div class="col-xs-2 contentBox clientListBox">
     <h1>Client List</h1>
     <ul class="nav nav-pills nav-stacked">
-  <li class="active"><a href="#">ALL</a></li>
-  <li><a href="#">SAVED</a></li>
-  <li><a href="#">NACUA</a></li>
-  <li><a href="#">COBAR</a></li>
-  <li><a href="#">NCURA</a></li>
-  <li><a href="#">HCCA</a></li>
-  <li><a href="#">GMDC</a></li>
+  <li class="active" ng-click="setAiFilter()"><a>ALL</a></li>
+  <li ng-repeat="ai in aiList | unique:'NAMEFIND' | orderBy:'NAMEFIND'" ng-click="setAiFilter(ai.NAMEFIND)"><a>{{ai.NAMEFIND}}</a></li>
+
 </ul>
 
 </div>
@@ -32,27 +28,26 @@
 <div class="col-xs-3 col-xs-offset-point25 contentBox aiListBox">
     <h1>Action Items</h1>
  <div class="list-group">
-<!--
-  <a href="#" class="list-group-item active">
-    Cras justo odio
-  </a>
--->
-  <a ng-href="#/ai/{{ai.LISTITEMNUM}}" class="list-group-item" ng-repeat="ai in aiList">{{ai.NAMEFIND}} - {{ai.LISTITEMNUM}} <span class="label actionTypeSpan action{{ai.actionTypeClass}} pull-right">{{ai.ACTIONTYPE}}</span></a>
-<!--
-  <a href="#" class="list-group-item">Test AI #2</a>
-  <a href="#" class="list-group-item">Test AI #3</a>
-  <a href="#" class="list-group-item">Test AI #4</a>
--->
+
+    <a ng-href="#/ai/{{ai.LISTITEMNUM}}" class="list-group-item row aiItemRow" ng-repeat="ai in aiList | filter:filterAisBy">
+    <div class="aiNumberDiv col-xs-6">{{ai.NAMEFIND}} - #{{ai.LISTITEMNUM}} </div>
+    <div class="aiStatusDiv col-xs-6"><span class="label actionTypeSpan action{{ai.actionTypeClass}}">{{ai.ACTIONTYPE}}</span></div>
+    </a>
+
+
 </div>
-<!--    <input class="datepicker" />-->
+
     <br>
 </div>
 
 <div class="col-xs-6 contentBox aiDetailBox">
     <h1>Details</h1>
-<!--    <a ng-click="aiService.openUserAi(ai.LISTITEMNUM)">View {{ai.LISTITEMNUM}} on Support</a>-->
      <button class="btn btn-default" style="margin-bottom:5px;" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)"><i class="fa fa-globe"></i> {{ai.NAMEFIND}} {{ai.LISTITEMNUM}}</button>
-    <div id="details"></div>
+     <button class="btn btn-default pull-right" style="margin-bottom:5px;" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)"><i class="fa fa-arrows-h"></i> </button>
+
+    <div id="details">
+          <div class="bs-callout bs-callout-info"> {{ai.ACTIONCOMMENTS}}</div>
+    </div>
 
 
 </div>
