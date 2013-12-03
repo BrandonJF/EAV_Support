@@ -3,6 +3,7 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
         //actionItemDllBaseUrl:"https://www.euclidtechnology.com/cvweb/cgi-bin/actionitemsdll.dll/list?",
         actionItemDllBaseUrl: "http://localhost/eav/cgi-bin/utilities.dll/customlist?",
         bookmarks: localStorageService.get('userBookmarks') || [],
+//        aiListFilter : "CLE",
         getUserAis: function (username) {
             //console.log("getUserAis Called.");
             //var userId = localStorageService.get("username");
@@ -121,14 +122,20 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
             //console.log("modifyAi Called.");
             actionItem.actionTypeClass = actionItem.ACTIONTYPE.replace(/\s+/g, '').replace("/", "");
             actionItem.bookmarked = aiService.isBookmarked(actionItem);
-            console.log(actionItem.bookmarked);
+            //console.log(actionItem.bookmarked);
             return actionItem;
         },
         setBadge: function (text) {
 //            chrome.browserAction.setBadgeText({
 //                "text": text
 //            });
-        }
+        },
+        setAiListFilter: function (filter){
+        aiService.aiListFilter = filter;
+    },
+           getAiListFilter: function (){
+        return aiService.aiListFilter;
+    }
 
     }; //end aiService Object
     return aiService;
