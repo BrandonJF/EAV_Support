@@ -1,0 +1,639 @@
+<style>
+li.documentArea {
+	margin-bottom:20px;
+	border:1px solid #eee;
+	padding:5px;
+}
+
+
+</style>
+<script language="javascript" src="../../js/ckeditorNQ/ckeditor.js"></script>
+<script src="../../js/jquery.printPage.js" type="text/javascript"></script>
+
+<script>
+
+
+
+top.document.title = 'Action Item <#LISTITEMNUM>';
+
+if(CUSTOMERTYPE != 'Employee'){
+	if(ORGCD != '<#MEMBERCD>'){
+		alert('You are not authorized to view this action item. You will now be redirected to the support homepage.');
+		window.top.location='../../../Support/MyHomePage.aspx';
+	}
+}
+
+function formValidate(){
+	if($("#SENDEMAIL_N").is(":checked")){
+		$("#SENDEMAIL").val("N");
+		$("#EMAILFROMADDRESS").val("");
+	}else{
+		$("#SENDEMAIL").val("Y");
+		$("#EMAILFROMADDRESS").val("support@euclidtechnology.com");
+	}
+	$.validity.start();
+
+	$(".reqField").require();
+	$("#ACTIONCOMMENTS").require("Comments are required.");
+	$("#ACTIONSUBJECTCD").require("System Area is required.");
+	$("#LISTNAME").require("Category is required.");
+	$("#ACTIONTYPE").require("Action is required.");
+	$("#actionsttField").require("Status");
+	$("#ACTIONASSIGNEDTOCD").require("Assign To is required.");
+
+
+	var result = $.validity.end();
+	//alert(result.valid);
+
+	if (result.valid) {
+		//auto populates cc address with the support email address if it's not automatically added
+		if($("#EMAILCCADDRESS").val().indexOf("support@euclidtechnology.com") < 0){
+			$("#EMAILCCADDRESS").val($("#EMAILCCADDRESS").val()+',support@euclidtechnology.com');
+		}
+		$.ajax({url: '../utilities.dll/customlist?SQLNAME=AI_EMAIL&wbp=empEmail.htm&wmt=none&whp=none&wnr=none&usercd='+$("#ACTIONASSIGNEDTOCD").val(),
+			type: 'get',
+			async: false,
+			success: function (data) {
+				if($("#EMAILCCADDRESS").val().indexOf(removeSpaces(data)) < 0){
+					$("#EMAILCCADDRESS").val($("#EMAILCCADDRESS").val()+','+removeSpaces(data));
+				}
+			}
+		});
+		//saves the added emails to this field for future correspondence on this AI
+		$("#ACTIONRESPONSE").val($("#EMAILCCADDRESS").val());
+		//creates new action note
+		getNotes();
+
+		if(ORGCD != '109')
+			{$("input[name='ACTIONTYPE']").val('Inprogress');}
+		else
+			{$("input[name='ACTIONTYPE']").val($("#ACTIONTYPE_field").val());}
+
+
+
+		  //if (CUSTOMERCD != 502359) { //JW 06.24.2013 - won't submit the form when Jenny is debugging issues
+			document.abc.submit();
+		//}
+	}
+
+
+}
+
+
+
+function getNotes(){
+
+	var webusername = '<#COOKIE_WEBUSERNAME>';
+	var userEmail = '<#COOKIE_EMAIL>';
+	var today = new Date();
+
+	var abstractText = CKEDITOR.instances.ADDNOTE.getData();
+	abstractText = abstractText.replace("%", "");
+	$("#ADDNOTE").val(abstractText);
+
+	//NQ - 8-2-13 - get the most recent version of the ActionNotes before updating
+		$.ajax({url: '../actionitemsdll.dll/Info?listitemnum=<#LISTITEMNUM>&WMT=none&WRP=actionNote.htm',
+			type: 'get',
+			async: false,
+			success: function (response) {
+				$("#ACTIONNOTE").val(response);
+			}
+		});
+
+	//alert('is there space:'+abstractText);
+	if((abstractText != '') && (abstractText != '<br>') && (abstractText != '[Add New Message Here]') && (abstractText != '<p>[Add New Message Here]</p>'))
+	{
+		//alert('this is running');
+		var newnote = '<table width="100%" border="0"><tr><td bgcolor="#999999"><font color="white">Detailed Description Entered by ' + webusername +' <BR>Time: '+today.defaultView()+' '+getClockTime()+'</font></td></tr></table><p>' + abstractText + '</p>';
+
+		$("#ACTIONNOTE").val(newnote+'<br>'+$("#ACTIONNOTE").val());
+	}
+
+}
+
+
+function showMsg(priorityNum)
+{
+	if(priorityNum == '1')
+		{$("#priority1").show();$("#priority2").hide();$("#priority3").hide();$("#priority4").hide();$("#priority5").hide();}
+	if(priorityNum == '2')
+		{$("#priority1").hide();$("#priority2").show();$("#priority3").hide();$("#priority4").hide();$("#priority5").hide();}
+	if(priorityNum == '3')
+		{$("#priority1").hide();$("#priority2").hide();$("#priority3").show();$("#priority4").hide();$("#priority5").hide();}
+	if(priorityNum == '4')
+		{$("#priority1").hide();$("#priority2").hide();$("#priority3").hide();$("#priority4").show();$("#priority5").hide();}
+	if(priorityNum == '5')
+		{$("#priority1").hide();$("#priority2").hide();$("#priority3").hide();$("#priority4").hide();$("#priority5").show();}
+
+			/*var el = document.getElementById('file'+AuthorIndex);
+            $("#button"+AuthorIndex).show();
+            el.innerHTML = '';    */
+        }
+
+        $(function() {
+        	$( ".datePicker" ).datepicker({
+        		changeMonth: true,
+        		changeYear: true
+        	});
+        });
+
+        var currFile = 0;
+        function Add_File()
+        {
+
+        	currFile++;
+        	$("#0_addButton").hide();
+        	$("ul#documentsArea").append('<li id="document'+currFile+'" class="documentArea"><ul><li><label for="TITLETXT_N'+currFile+'">Title</label><input name="TITLETXT_N'+currFile+'" size="50" class="fileField"></li><li><label for="DOCDES_N'+currFile+'">Description</label> <input name="DOCDES_N'+currFile+'" size="50" class="fileField"></li><li><label for="DOCTYPE_N'+currFile+'">Type</label> <select name="DOCTYPE_N'+currFile+'" class="fileField"><option value="">Select One...</option><#RTVDOCTYPEREF></select></li><li><label for="FILEFIELD_N'+currFile+'">Document</label> <input type="file" name="FILEFIELD_N'+currFile+'" value="<#FILEFIELD_N'+currFile+'>"><input name="OWNERNAME_N'+currFile+'" type="hidden" value="<#COOKIE_FIRSTNAME> <#COOKIE_LASTNAME>" class="fileField"></li></ul><input type="button" value="Remove this Document" id="'+currFile+'_removeButton"  onclick="Remove_Author(this)"/><input type="button" name="AddAuthor"  id="'+currFile+'_addButton" value="Add Another Document" onclick="Add_File();$(\'#'+currFile+'_addButton\').hide();" /></li>');
+
+        }
+
+        $("#fileSection").hide();
+
+        function Remove_Author(objToRemove)
+        {
+        	$(objToRemove).parent().remove();
+        	$("ul#documentsArea  > li").each( function(i) {
+		//alert(i);
+		$(this).attr("id", "document" + i);
+		$("#document" + i + " ul li:nth-child(1)").children("label").attr("for", "TITLETXT_N" + i);
+		$("#document" + i + " ul li:nth-child(1)").children("input").attr("name","TITLETXT_N" + i);
+
+		$("#document" + i + " ul li:nth-child(2)").children("label").attr("for", "DOCDES_N" + i);
+		$("#document" + i + " ul li:nth-child(2)").children("input").attr("name", "DOCDES_N" + i);
+
+		$("#document" + i + " ul li:nth-child(3)").children("label").attr("for", "DOCTYPE_N" + i);
+		$("#document" + i + " ul li:nth-child(3)").children("input").attr("name",  "DOCTYPE_N" + i);
+
+		$("#document" + i + " ul li:nth-child(4)").children("label").attr("for",  "FILEFIELD_N" + i);
+		$("#document" + i + " ul li:nth-child(4)").children("input").attr("name",  "FILEFIELD_N" + i);
+		$("#document" + i + " ul li:nth-child(4)").children("input").attr("name",  "OWNERNAME_N" + i);
+
+
+
+	})
+
+        	currFile = currFile -1;
+
+        	if (currFile == 0)
+        		$("#0_addButton").show();
+
+	//alert(currFile);
+}
+//display or hide existing file section
+var isFiles = false;
+
+</script>
+
+
+<h4>Action Item <#LISTITEMNUM></h4>
+<p>Edit any of the below sections and click "Update Action Item" at the bottom of the page to apply these changes. </p>
+<p><a href="../ActionItemsdll.dll/Info?listitemnum=<#LISTITEMNUM>&RESPONSEPAGE=aiPrint.htm&wmt=../main_template_none.htm" class="btnPrint"> Print Action Item Detail</a></p>
+
+<form method="POST" name="abc" enctype="multipart/form-data" action="../msashelpdll.dll/ActionItemUpdate" id="supportRequestUpdateForm">
+
+	<fieldset>
+		<legend>Detail</legend>
+		<ul>
+
+			<li>(200 Characters or Less)<br />
+				<textarea name='ACTIONCOMMENTS' id="ACTIONCOMMENTS" cols='40' rows='10'><#ACTIONCOMMENTS></textarea>
+				<br />
+
+			</li>
+		</ul>
+		<span  class="closedMsg alertMsg" style="display:none">This Action Item has been closed.  If you need to revisit this issue, please create a new Action Item and reference this Action Item's number.</span>
+		<div class='left'>
+
+			<ul class="aiHeaders">
+				<li>
+					<label for="LISTITEMNUM">Action Item #</label>
+					<#LISTITEMNUM>
+
+				</li>
+
+				<li>
+					<label for="FULLNAME">Submitted By </label>
+					<#FULLNAME>
+				</li>
+
+
+				<li class="client" style="display:none">
+					<label for="Priority">Priority </label>
+					<script>
+					if(('<#ACTIONPRIORITY>' == '1') || ('<#ACTIONPRIORITY>' == '2'))
+						{document.write("<span class='red'>High</span>");}
+					if('<#ACTIONPRIORITY>' == '3')
+						{document.write("Medium");}
+					if(('<#ACTIONPRIORITY>' == '4') || ('<#ACTIONPRIORITY>' == '5'))
+						{document.write("Low");}
+
+					</script>
+				</li>
+
+
+				<li class="client" style="display:none">
+					<label for="ACTIONSUBJECTCD" >System Area</label>
+					<option><#ACTIONSUBJECTCD></option>
+				</li>
+
+
+
+				<li class="client" style="display:none">
+					<label for="LISTNAME">Category</label>
+					<#LISTNAME>
+				</li>
+
+
+				<li>
+					<label for="UPDATETMS">Assigned Date </label>
+					<#UPDATETMS
+				</li>
+			</ul>
+		</div>
+
+		<div class='right'>
+			<ul class="aiHeaders">
+
+				<li class="client" style="display:none">
+					<label for="ACTIONSTT">Current Status </label>
+					<#ACTIONSTT>
+				</li>
+
+				<li>
+					<label for="UPDATETMS">Last Updated </label>
+					<#UPDATETMS>
+				</li>
+				<li>
+					<label for="UPDATEUSERCD">By </label>
+					<#UPDATEUSERCD ALIAS=A>
+				</li>
+
+				<li class="client" style="display:none">
+					<label for="ACTIONASSIGNEDTOCD" class="required">Assign To </label>
+					<#ACTIONASSIGNEDTOCD>
+				</li>
+				<li>
+					<label for="ACTIONASSIGNEDBYCD">Assigned By </label>
+					<#ACTIONASSIGNEDBYCD>
+				</li>
+			</ul>
+
+
+			<li class="client" style="display:none">
+				<label for="ACTIONDATETARGET1">Target Completion Date </label>
+				<#ACTIONDATETARGET1>
+			</li>
+
+		</ul>
+	</div>
+
+	<div class='clear'></div>
+	<div>
+		<ul>
+			<li class="staff" style="display:none">
+				<label for="ACTIONPRIORITY" class="required">Priority</label>
+				<input type="radio" name="ACTIONPRIORITY"  class="ACTIONPRIORITY" value="1" />1
+				<input type="radio" name="ACTIONPRIORITY"  class="ACTIONPRIORITY" value="2">2
+				<input name="ACTIONPRIORITY" type="radio"  class="ACTIONPRIORITY" value="3">3
+				<input type="radio" name="ACTIONPRIORITY"  class="ACTIONPRIORITY" value="4">4
+				<input type="radio" name="ACTIONPRIORITY"  class="ACTIONPRIORITY" value="5">5
+				<script>
+					if('<#ACTIONPRIORITY>' == '1'){
+						document.abc.ACTIONPRIORITY[0].checked = true;
+					}else if('<#ACTIONPRIORITY>' == '2'){
+						document.abc.ACTIONPRIORITY[1].checked = true;
+					}else if('<#ACTIONPRIORITY>' == '3' || '<#ACTIONPRIORITY>' == ''){
+						document.abc.ACTIONPRIORITY[2].checked = true;
+					}else if('<#ACTIONPRIORITY>' == '4'){
+						document.abc.ACTIONPRIORITY[3].checked = true;
+					}else if ('<#ACTIONPRIORITY>' == '5'){
+						document.abc.ACTIONPRIORITY[4].checked = true;
+					}
+
+					</script>
+			</li>
+
+			<li class="staff" style="display:none">
+				<label for="ACTIONSUBJECTCD" class="required">System Area</label>
+				<select name='ACTIONSUBJECTCD' id="ACTIONSUBJECTCD">
+					<option value="">Select One...</option>
+					<#REFTABLEVALS TABLENAME=LOOKUPS FLD1=CODE FLD2=DESCRIPTION FLQ=CATEGORY=ACTIONSUBJECT SCV=ACTIONSUBJECTCD SORT=DESCRIPTION>
+				</select>
+			</li>
+
+			<li class="staff" style="display:none">
+				<label for="LISTNAME" class="required">Category</label>
+				<select size="1" name="LISTNAME" tabindex="3" id="LISTNAME" class="reqField">
+					<option><#REFTABLEVALS TABLENAME=LIST FLD1=LISTNAME FLD2=LISTNAME SORT=LISTNAME FLQ="LISTSTT=ACTIVE" SCV=LISTNAME></option>
+				</select>
+			</li>
+
+			<li>
+				<label for="ACTIONTYPE_field" id="listnameField" class="required">Action</label>
+				<select size="1" name="ACTIONTYPE_field" tabindex="3" id="ACTIONTYPE_field" class="reqField" title="Action">
+					<option value="">Select One</option>
+					<option value="Client Review">Client Review</option>
+					<option value="Enhancement">Enhancement</option>
+					<option value="Inprogress">Inprogress</option>
+					<option value="Investigate">Investigate</option>
+					<option value="Ready to Close">Ready to Close</option>
+					<option value="Quoted">Quoted</option>
+					<option value="Upgrade">Upgrade</option>
+				</select>
+				<script>
+		//pre-populate suffix
+		$('#ACTIONTYPE_field').val("<#ACTIONTYPE>");
+		</script>
+
+	</li>
+
+	<li class="staff" style="display:none">
+
+		<label for="ACTIONSTT">Current Status</label>
+		<select name="ACTIONSTT" class="reqField" id="actionsttField">
+			<option value="">Select One...</option>
+			<option value="Out-Standing">Out-Standing</option>
+			<option value="Completed">Completed</option>
+			<option value="Cancelled">Cancelled</option>
+			<option value="On Hold">On Hold</option>
+		</select>
+		<script>
+
+		$('#actionsttField').val("<#ACTIONSTT>");
+		</script>
+	</li>
+	<li class="staff" style="display:none">
+		<label for="ACTIONASSIGNEDTOCD" class="required">Assign To </label>
+		<select name="ACTIONASSIGNEDTOCD" id="ACTIONASSIGNEDTOCD">
+
+			<#REFTABLEVALS TABLENAME=DATABASE_USER FLD1-USERCD FLD2=USERCD FLQ=ACTIVEFLG=Y SCV=ACTIONASSIGNEDTOCD>
+
+		</select>
+	</li>
+	<li>
+					<label for="ACTIONDATEREQUEST">Requested Completion Date </label>
+					<input name="ACTIONDATEREQUEST" id="ACTIONDATEREQUEST" value="<#ACTIONDATEREQUEST>" class="datePicker" onkeypress="autoformatWithPool(this, event, '##/##/####',1)">
+				</li>
+				<li class="staff" style="display:none">
+				<label for="ACTIONDATETARGET1">Target Completion Date </label>
+				<input name="ACTIONDATETARGET1" id="ACTIONDATETARGET1" value="<#ACTIONDATETARGET1>" class="datePicker" onkeypress="autoformatWithPool(this, event, '##/##/####',1)">
+			</li>
+</ul>
+</div>
+</fieldset>
+
+
+<fieldset>
+	<legend>Client Details</legend>
+	<#INCLUDE DLL="ORGANIZATIONDLL.DLL" ACT="INFO" PARAMS="ORGCD={MEMBERCD}" WRP="orgActionInfo.htm">
+</fieldset>
+
+
+<fieldset>
+	<legend>Related Documents</legend>
+	<table class="gutters" id="fileSection">
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Type</th>
+			<th>Date</th>
+			<th>Uploaded By</th>
+		</tr>
+		<#FILELIST SORT="DOCDATE DESC">
+	</table>
+	<input type="button" name="showDocs" value="Add a Document" id="showDocButton" onclick="$('#docSection').show();$('#showDocButton').hide()" />
+	<div id="docSection" style="display:none;">
+		<ul id="documentsArea">
+			<li id="document0" class="documentArea">
+				<ul>
+					<li><label for="TITLETXT_N0">Title</label><input name="TITLETXT_N0" size="50" class="fileField"></li>
+					<li><label for="DOCDES_N0">Description</label> <input name="DOCDES_N0" size="50" class="fileField"></li>
+					<li><label for="DOCTYPE_N0">Type</label> <select name="DOCTYPE_N0" class="fileField"><option value="">Select One...</option><#RTVDOCTYPEREF></select></li>
+					<li><label for="FILEFIELD_N0">Document </label> <input type='file' name='FILEFIELD_N0' value='<#FILEFIELD_N0>'>
+					<input name="OWNERNAME_N0" type="hidden" value="<#COOKIE_FIRSTNAME> <#COOKIE_LASTNAME>" class="fileField">
+					</li>
+					<li><label for="">Allowed file types</label> .jpg, .jpeg, .doc, .docx, .pdf, .bmp, .txt, .ppt, .pptx, .xls, .xlsx, .gif, .png, .txt, .csv, .rtf, .zip, .msg, .xps</li>
+				</ul>
+				<input type="button" name="AddAuthor" value="Add Another Document"  id="0_addButton" onclick="Add_File()" />
+			</li>
+		</ul>
+	</div>
+
+</fieldset>
+
+<fieldset id="messageLog">
+	<legend>Action Item Message Log</legend>
+	<input type="button" id="editButton" value="Add a Message" onclick="javascript:$('#actionItemMessage').show();$('#editButton').hide();" />
+	<ul>
+		<li id="actionItemMessage">If needed, please enter a detailed description below:</br> <b><span class="red">(NOTE: Please do not copy images here.  Please attach using the documents section above.)</span></b>
+			<textarea name='ADDNOTE' value='' id="ADDNOTE" cols='525' rows='10' style="width:600px; height:200px;"> [Add New Message Here]</textarea>
+		</li>
+		<li style="display:none;">If needed, please enter a detailed description below:
+			<textarea name='ACTIONNOTE' value='' id="ACTIONNOTE" cols='525' rows='10'><#ACTIONNOTE></textarea>
+		</li>
+	</ul>
+	<#ACTIONNOTE>
+</fieldset>
+
+<fieldset>
+	<legend>Email Configuration Settings</legend>
+	<ul>
+		<li><label for="SENDEMAIL_field">Send Email</label> <input type="radio" name="SENDEMAIL_field" id="SENDEMAIL_Y" value="Y" checked="checked">Yes <input type="radio" name="SENDEMAIL_field" value="N" id="SENDEMAIL_N">No</li>
+		<li><label for="showEMAIL">Email To</label> <input name="showEMAIL" size="50" type="text" id="showEMAIL" value="<#COOKIE_EMAIL>"> </li>
+		<li><label for="EMAILCCADDRESS">Email CC</label>
+
+			<textarea name='EMAILCCADDRESS' value=''  id="EMAILCCADDRESS" cols='38' rows='4' style="width:300px; height:75px;"><#ACTIONRESPONSE></textarea>
+
+			<script>
+			$("textarea#EMAILCCADDRESS").val(removeNL($("textarea#EMAILCCADDRESS").val()));
+			</script>
+
+
+			<a href="#" id="emailSearch">Add Emails </a>  </li>
+		</ul>
+	</fieldset>
+
+	<div class="buttons">
+		<span id="loader"></span>	<INPUT TYPE="button" name='BUTTON' value="Submit Request" id="submitButton" onClick="formValidate()"><span class="closedMsg alertMsg" style="display:none">This Action Item has been closed.  If you need to revisit this issue, please create a new Action Item and reference this Action Item's number.</span>
+	</div>
+	<div id="reqMsg" style="display:none"><p>Please complete all required fields to continue.</p></div>
+
+	<div class="validity-summary-container">
+		<p class="alertMsg">Please complete all required fields to continue.</p>
+		<ul></ul>
+	</div>
+
+	<div id="dialog-message" title="Action Item <#LISTITEMNUM>">
+		<p>
+			<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+			This Action Item has been closed.  If you need to revisit this issue, please create a new Action Item and reference this Action Item's number.<br />Click OK to be redirected back to your support home page or CANCEL to view the Action Item.</p>
+
+		</div>
+
+		<div id="dev-message" title="Action Item <#LISTITEMNUM>">
+			<p>
+				<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+				Thank you for updating this Action Item. This action item is currently in the development queue.  Your Support Analyst will notify you when this item is scheduled for release. If you need to add additional supporting documentation, please select "Proceed to Action Item" or <br /> CANCEL to be redirected back to your support home page.</p>
+
+			</div>
+
+			<input type="hidden" name="INDATABASEFLG" value="N" />
+			<input type="hidden" name="SAVETOFILE" value="Y" />
+			<input type="hidden" name="LISTITEMNUM" value="<#LISTITEMNUM>">
+			<input type="hidden" name="UPDATEUSERCD" value="WEBUSER">
+			<input type="hidden" name="RESPONSEPAGE" value="AI_update_confirm.htm">
+			<input type="hidden" name="SENDEMAIL" id="SENDEMAIL" value="Y" />
+			<input type="hidden" name="EMAILSUBJECT" id="EMAILSUBJECT" value="Action Item <#LISTITEMNUM> Has Been Updated (<#ORGNAME>)">
+			<input type="hidden" name="EMAILRESPONSEFORMAT" value="HTML">
+			<input type="hidden" name="EMAILFROMADDRESS" id="EMAILFROMADDRESS" value="support@euclidtechnology.com">
+			<input type="hidden" name="EMAILREPLYFORM" value="AI_update_email.htm">
+			<input type="hidden" name="EMAILREPLYADDRESS" value="support@euclidtechnology.com">
+
+			<input type="hidden" name="ACTIONDATEACTUAL" value="<#ACTIONDATEACTUAL>">
+
+			<input type="hidden" name="ACTIONRESPONSE" id="ACTIONRESPONSE" value="" />
+			<input type="hidden" name="ACTIONTYPE" id="ACTIONTYPE" value="<#ACTIONTYPE>">
+
+		</form>
+		<script>
+		$(window).load(function(){
+//$('#EMAILCCADDRESS').val($('#clientEmail').html())
+//hide files section if no files
+if(!isFiles){
+	$('#fileSection').hide();
+}
+});
+
+		$('#showEMAIL').attr("disabled","disabled");
+
+		$(document).ready(function() {
+			$(".btnPrint").printPage();
+			CKEDITOR.replace('ADDNOTE');
+		});
+
+		$('#ACTIONCOMMENTS').jqEasyCounter({
+			'maxChars': 200,
+			'maxCharsWarning': 185
+		});
+
+//opens org search results in a jquery dialog
+$(document).ready(function () {
+	$('a#emailSearch').live('click', function (e) {
+		e.preventDefault();
+		if(ORGCD == '109'){
+                	//CVCONNECTENABLE
+                	return parent.uiPopUp('../../../cvweb/cgi-bin/memberdll.dll/list?whp=emailDir_header.htm&wbp=emailDir_list.htm&orgcd=109&clientcd=<#MEMBERCD>&sort=LASTNAME&statusstt=Active&wmt=../main_template_none.htm');
+                }else{
+					//CVCONNECTENABLE
+					return parent.uiPopUp('../../../cvweb/cgi-bin/memberdll.dll/list?whp=emailDir_header.htm&wbp=emailDir_list.htm&orgcd=<#COOKIE_ORGCD>&sort=LASTNAME&statusstt=Active&wmt=../main_template_none.htm');
+				}
+
+			});
+
+	$('a#printForm').live('click', function (e) {
+		e.preventDefault();
+                //CVCONNECTENABLE
+                return parent.uiPopUp('../../../cvweb/cgi-bin/ActionItemsdll.dll/Info?listitemnum=<#LISTITEMNUM>&RESPONSEPAGE=aiPrint.htm&wmt=../main_template_none.htm');
+            });
+
+
+});
+
+
+$('#actionItemMessage').hide();
+//$('#EMAILSUBJECT').val('$("#clientName").val()+" "+$("#EMAILSUBJECT").val()')
+//$('#EMAILCCADDRESS').val('support')
+
+if(('<#ACTIONSTT>' != 'Out-Standing') &&('<#ACTIONSTT>' != 'On Hold') && ('<#ACTIONSTT>' != ''))
+{
+	$(function() {
+		$( "#dialog:ui-dialog" ).dialog( "destroy" );
+		$( "#dialog-message" ).dialog({
+			modal: true,
+			buttons:
+			{
+				"OK": function() {
+
+					$( this ).dialog( "close" );
+					location.href="../memberdll.dll/info?wrp=actionhome.htm"
+				},
+
+				"CANCEL": function() {
+
+					$( this ).dialog( "close" );
+
+				}
+
+			}
+		});
+	});
+
+	$('.closedMsg').show();
+	$('#submitButton').hide();
+
+}
+else
+{
+	$('#dialog-message').hide();
+}
+
+
+if(('<#LISTNAME>' == 'PROJ_CV_DEV') || ('<#LISTNAME>' == 'SUPPORT_PGRM_DEV') || ('<#LISTNAME>' == 'PROJ_BUGFIX') || ('<#LISTNAME>' == 'SUPPORT_PGRM_BUGFIX') || ('<#LISTNAME>' == 'CV7_LOE REQUEST'))
+{
+	$(function() {
+		$( "#dialog:ui-dialog" ).dialog( "destroy" );
+		$( "#dev-message" ).dialog({
+			modal: true,
+			buttons:
+			{
+				"CANCEL": function() {
+
+					$( this ).dialog( "close" );
+					location.href="../memberdll.dll/info?wrp=actionhome.htm"
+				},
+
+				"Proceed to Action Item": function() {
+					$( this ).dialog( "close" );
+				}
+
+			}
+		});
+	});
+
+	//$('.closedMsg').show();
+	//$('#submitButton').hide();
+
+}
+else
+{
+	$('#dev-message').hide();
+}
+
+$(function(){
+	if (ORGCD == '109')
+	{
+		$('.staff').show();
+	}
+	else
+	{
+		$('.client').show();
+	}
+});
+
+//NQ - 9-18-12 - hide any options that are not SUPPORT_ or PROJ_ in category (listname)
+$("select#LISTNAME option").each( function() {
+	if (($(this).val().indexOf("SUPPORT_") < 0) && ($(this).val().indexOf("PROJ_") < 0) && ($(this).val().indexOf("CV7_") < 0))
+		$(this).remove();
+});
+
+if(ORGCD != '109')
+{
+			//alert('THIS IS A CLIENT UPDATE FORM');
+			var currAcc = $("#ACTIONTYPE_field");
+			var action = '<#ACTIONTYPE>';
+			$("select[name='ACTIONTYPE_field'] option").remove();
+			currAcc.append($("<option />").val(action).text(action));
+			currAcc.append($("<option />").val('Ready to Close').text('Ready to Close'));
+		}
+
+		</script>
