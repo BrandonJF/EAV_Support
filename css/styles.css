@@ -40,6 +40,7 @@ body {
 body {
     /* background:url("../img/binding_dark.png");   */
      font-family: 'Open Sans', sans-serif;
+    overflow:hidden;
 }
 .btn-default {
     background-image:initial;
@@ -240,7 +241,8 @@ background:url("../img/wood_pattern.png");
 	padding-top: 20px;
 	border-bottom: 1px solid #F0F5FB;
 	color: #6685A5;
-	line-height: 1.2em;
+	line-height: 1.5em;
+    font-family: georgia;
 }
 
 .noteHeader{
@@ -267,6 +269,10 @@ color: #858E92;
  max-height: 500px;
 overflow-y: auto;
     max-height: 85%;
+}
+
+#details .well{
+background:url("../img/cream_dust.png");
 }
 
 .aiListBox .list-group{
@@ -350,4 +356,15 @@ margin-bottom: 0;
 @keyframes pace-rotation {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(359deg); }
+}
+
+.aiNumberDiv {
+    overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+.aiItemRow{
+ margin-left:initial;
+    margin-right:initial;
 }
