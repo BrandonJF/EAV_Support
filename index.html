@@ -111,7 +111,7 @@
             <ng-include src="'app/views/leftNav.htm'">
                 <ng-include>
         </div>
-        <div class="col-xs-10 contentArea" ng-view></div>
+        <div class="col-xs-10 contentArea" ng-view ng-cloak></div>
 
 
     </div>
@@ -131,6 +131,7 @@
     <script src="app/controllers/Controller2.js"></script>
     <script src="app/services/aiService.js"></script>
     <script src="app/services/userService.js"></script>
+    <script src="app/services/aiMetricsService.js"></script>
     <!--	<script src="/js/euclidActionView.js"></script>-->
     <!--	<script src="/js/localStorageModule.js"></script>-->
     <script src="js/plugins.js"></script>

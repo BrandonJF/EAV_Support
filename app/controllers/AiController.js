@@ -5,14 +5,17 @@ eav.controller("AiController", ['$scope',
     'localStorageService',
     'aiService',
     'userService',
+    'aiMetricsService',
     function ($scope,
     $http,
     $location,
     $routeParams,
     localStorageService,
     aiService,
-    userService) {
+    userService,
+    aiMetricsService) {
         $scope.username = userService.getUsername();
+        $scope.progress = null;
 
         $scope.$on('$viewContentLoaded', function () {
             $(function () {
@@ -83,6 +86,7 @@ eav.controller("AiController", ['$scope',
 
         aiService.getUserAis($scope.username).success(function (data, status) {
             $scope.aiList = aiService.modifyAis(data.actionItems);
+            $scope.progress = aiMetricsService.calcProgress(data.actionItems);
         });
 
         $scope.searchUserAi = function (aiNumber) {

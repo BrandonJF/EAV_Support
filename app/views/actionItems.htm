@@ -1,6 +1,6 @@
 <div class="row contentHeader">
     <div class="col-xs-6">
-        <i class="fa fa-tasks cntHeaderIcon"></i>Action Items
+        <i class="fa fa-tasks cntHeaderIcon"></i>Action Items - {{progress}}% Achievement Rating
     </div>
       <div class="col-xs-offset-4 col-xs-2">
       <form ng-submit="searchUserAi(searchAiNumber)">
@@ -30,8 +30,10 @@
  <div class="list-group">
 
     <a ng-href="#/ai/{{ai.LISTITEMNUM}}" class="list-group-item row aiItemRow" ng-repeat="ai in aiList | filter:filterAisBy">
+        <div class="aiStatusDiv col-xs-1"><span class="badge priority{{ai.ACTIONPRIORITY}}">{{ai.ACTIONPRIORITY}}</span></div>
     <div class="aiNumberDiv col-xs-6">{{ai.NAMEFIND}} - #{{ai.LISTITEMNUM}} </div>
-    <div class="aiStatusDiv col-xs-6"><span class="label actionTypeSpan action{{ai.actionTypeClass}}">{{ai.ACTIONTYPE}}</span></div>
+    <div class="aiStatusDiv col-xs-4"><span class="label actionTypeSpan action{{ai.actionTypeClass}}">{{ai.ACTIONTYPE}}</span></div>
+
     </a>
 
 
