@@ -1,7 +1,7 @@
 eav.factory("aiService", function ($http, localStorageService, userService) {
     var aiService = {
         //actionItemDllBaseUrl:"https://www.euclidtechnology.com/cvweb/cgi-bin/actionitemsdll.dll/list?",
-        actionItemDllBaseUrl: "http://localhost/eav/cgi-bin/utilities.dll/customlist?",
+        actionItemDllBaseUrl: config.baseurl + "/eav/cgi-bin/utilities.dll/customlist?",
         bookmarks: localStorageService.get('userBookmarks') || [],
 //        aiListFilter : "CLE",
         getUserAis: function (username) {
@@ -25,7 +25,7 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
         },
         getAiNotes: function (aiNumber) {
             return $http({
-                url: "http://localhost/eav/cgi-bin/actionitemsdll.dll/info?",
+                url: config.baseurl + "/eav/cgi-bin/actionitemsdll.dll/info?",
                 method: 'GET',
                 params: {
                     "LISTITEMNUM": aiNumber,
@@ -38,7 +38,7 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
         getAiDetails: function (aiNumber) {
             return $http({
                 //url: "https://www.euclidtechnology.com/cvweb/cgi-bin/actionitemsdll.dll/info?",
-                url: "http://localhost/eav/cgi-bin/utilities.dll/customlist?",
+                url: config.baseurl + "/eav/cgi-bin/utilities.dll/customlist?",
                 method: 'GET',
                 params: {
                     "sqlname": "GETEAVUSERAIS",
