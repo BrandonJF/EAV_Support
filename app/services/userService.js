@@ -2,7 +2,12 @@ eav.factory("userService", function($http,$q, localStorageService){
 
 
   var userService =  {
-   username : config.username,
+      username : config.username,
+      useIsAuthenticated : false,
+
+      setUserAuthenticated: function(value){
+  userService.useIsAuthenticated = value;
+  },
 
    memberDllBaseUrl:"https://www.euclidtechnology.com/cvweb/cgi-bin/memberdll.dll/info?",
 

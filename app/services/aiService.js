@@ -3,7 +3,7 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
         //actionItemDllBaseUrl:"https://www.euclidtechnology.com/cvweb/cgi-bin/actionitemsdll.dll/list?",
         actionItemDllBaseUrl: config.baseurl + "/eav/cgi-bin/utilities.dll/customlist?",
         bookmarks: localStorageService.get('userBookmarks') || [],
-//        aiListFilter : "CLE",
+        aiListFilter: "",
         getUserAis: function (username) {
             //console.log("getUserAis Called.");
             //var userId = localStorageService.get("username");
@@ -49,6 +49,53 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
             });
         },
 
+        sendAiMessage: function (message, aiNumber) {
+            //alert(message, aiNumber);
+            var today = new Date();
+           return $http({
+                url: config.baseurl + '/eav/cgi-bin/actionitemsdll.dll/Info?',
+                method: 'get',
+                params: {
+                    "listitemnum": aiNumber,
+                    "WMT": "none",
+                    "WRP": "actionNote.htm",
+                }
+            }).then(function (response) {
+               var responseStatus = "";
+                var newnote = '<table width="100%" border="0"><tr><td bgcolor="#999999"><font color="white">Detailed Description Entered by ' + config.username + ' <BR>Time: ' + today.defaultView() + ' ' + window.getClockTime() + '</font></td></tr></table><p>' + message + '</p>';
+                var messageToSend = newnote + '<br>' + response.data;
+               var uploadPromise = aiService.uploadAiMessage(messageToSend, aiNumber);
+               uploadPromise.then(function(response){responseStatus = response; return responseStatus;});
+               return uploadPromise;
+
+
+
+            });
+
+
+        },
+
+        uploadAiMessage: function(message, aiNumber){
+            console.log("Upload Ai Message: ", message);
+        var promise = $http({
+                //url: config.baseurl + '/eav/cgi-bin/actionitemsdll.dll/Info?',
+                url: config.baseurl + '/eav/cgi-bin/msashelpdll.dll/ActionItemUpdate',
+                method: 'get',
+                params: {
+                     "CUSTOMERCD":"502508",
+                    "listitemnum": aiNumber,
+                    "WMT": "none",
+                    "ACTIONNOTE": message,
+                    "SENDEMAIL":"N",
+                    "WRP":"UploadResponse.htm"
+                    //"ACTIONTYPE_field":"Client Review"
+
+                }
+            }).then(function(response){ return response.data;});
+            return promise;
+
+        },
+
         getBookmarks: function () {
             //console.log("getBookmarks Called.");
             return aiService.bookmarks;
@@ -71,7 +118,7 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
 
             //aiService.bookmarks = _.without(aiService.bookmarks,actionItem);
             _.remove(aiService.bookmarks, function (aiObj) {
-                return aiObj.LISTITEMNUM == actionItem.LISTITEMNUM;
+                return aiObj.LISTITEMNUM === actionItem.LISTITEMNUM;
             });
             //console.log("New array is", aiService.bookmarks);
             localStorageService.add('userBookmarks', aiService.bookmarks);
@@ -82,14 +129,14 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
             //console.log("toggleBookmark Called.");
             // var containsBookmark = _.indexOf(aiService.bookmarks, actionItem.LISTITEMNUM)!==-1;
             var containsBookmark = _.any(aiService.bookmarks, function (aiObj) {
-                return aiObj.LISTITEMNUM == actionItem.LISTITEMNUM;
+                return aiObj.LISTITEMNUM === actionItem.LISTITEMNUM;
             });
 
-            if (containsBookmark == true) {
+            if (containsBookmark === true) {
                 //console.log("The bookmark is already there");
                 actionItem.bookmarked = false;
                 aiService.removeBookmark(actionItem);
-            } else if (containsBookmark == false) {
+            } else if (containsBookmark === false) {
                 //console.log("The bookmark is NOT already there");
                 actionItem.bookmarked = true;
                 aiService.storeBookmark(actionItem);
@@ -102,14 +149,14 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
             //console.log("isBookmarked Called.");
             //return _.indexOf(aiService.bookmarks, aiNumber)!==-1 ? true : false;
             return _.any(aiService.bookmarks, function (aiObj) {
-                return aiObj.LISTITEMNUM == actionItem.LISTITEMNUM;
+                return aiObj.LISTITEMNUM === actionItem.LISTITEMNUM;
             });
         },
         openUserAi: function (aiNumber) {
-//            chrome.tabs.create({
-//                "url": "https://www.euclidtechnology.com/support/ActionItem.aspx?cv_ActionItem=" + aiNumber
-//            });
-            window.open('https://www.euclidtechnology.com/support/ActionItem.aspx?cv_ActionItem=' + aiNumber ,'_blank');
+            //            chrome.tabs.create({
+            //                "url": "https://www.euclidtechnology.com/support/ActionItem.aspx?cv_ActionItem=" + aiNumber
+            //            });
+            window.open('https://www.euclidtechnology.com/support/ActionItem.aspx?cv_ActionItem=' + aiNumber, '_blank');
         },
         modifyAis: function (actionItems) {
             //console.log("modifyAis Called.");
@@ -126,16 +173,16 @@ eav.factory("aiService", function ($http, localStorageService, userService) {
             return actionItem;
         },
         setBadge: function (text) {
-//            chrome.browserAction.setBadgeText({
-//                "text": text
-//            });
+            //            chrome.browserAction.setBadgeText({
+            //                "text": text
+            //            });
         },
-        setAiListFilter: function (filter){
-        aiService.aiListFilter = filter;
-    },
-           getAiListFilter: function (){
-        return aiService.aiListFilter;
-    }
+        setAiListFilter: function (filter) {
+            aiService.aiListFilter = filter;
+        },
+        getAiListFilter: function () {
+            return aiService.aiListFilter;
+        }
 
     }; //end aiService Object
     return aiService;
