@@ -13,7 +13,7 @@ eav.factory("aiMetricsService", function($http,$q, localStorageService, aiServic
        var minPriority = 1;
        var scaleAdjust = maxPriority + minPriority;
 
-    var completedAiArray = _.filter(aiObjects, function(ai) { return ai.ACTIONTYPE =="Client Review" || ai.ACTIONTYPE =="Bill" ;});
+    var completedAiArray = _.filter(aiObjects, function(ai) { return ai.ACTIONTYPE ==="Client Review" || ai.ACTIONTYPE ==="Bill" ;});
     var incompleteAiArray = _.filter(aiObjects, function(ai) { return ai.ACTIONTYPE !== "Client Review" && ai.ACTIONTYPE !== "Ready to Close" && ai.ACTIONTYPE !== "Schedule"  ; });
 
     var completedPriorityArray = _.pluck(completedAiArray, 'ACTIONPRIORITY');
@@ -34,7 +34,7 @@ eav.factory("aiMetricsService", function($http,$q, localStorageService, aiServic
 //    console.log("totalPriorityTotal",totalPriorityTotal);
 
     var progress = ((completedPriorityTotal / totalPriorityTotal) * 100) ;
-    var progress = progress.toFixed(2);
+    progress = progress.toFixed(2);
     return progress;
 
 }
