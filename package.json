@@ -1,0 +1,14 @@
+{
+  "name": "EAV",
+  "version": "0.1.0",
+  "author": "Brandon John-Freso",
+  "private": true,
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-htmlhint": "*",
+    "grunt-contrib-watch": "*",
+    "matchdep": "*",
+    "grunt-karma": "~0.6.2"
+  }
+}
