@@ -5,6 +5,7 @@ eav.controller("AiController", ['$scope',
     '$routeParams',
     'localStorageService',
     'aiService',
+    'messageService',
     'userService',
     'aiMetricsService',
     function($scope,
@@ -14,6 +15,7 @@ eav.controller("AiController", ['$scope',
         $routeParams,
         localStorageService,
         aiService,
+        messageService,
         userService,
         aiMetricsService) {
         $scope.username = userService.getUsername();
@@ -31,12 +33,10 @@ eav.controller("AiController", ['$scope',
 
         $scope.sendAiMessage = function() {
             if ($scope.aiMessage || $("#aiMessageEditor").val()) {
-                var sendingAiPromise = aiService.sendAiMessage(($scope.aiMessage || $("#aiMessageEditor").val()), $scope.aiNumber);
-                sendingAiPromise.then(function(response) {
-                    //alert(response);
-                    $('#myModal').modal('hide');
+                var sendingAi_Promise = messageService.sendAiMessage(($scope.aiMessage || $("#aiMessageEditor").val()), $scope.aiNumber);
+                sendingAi_Promise.then(function(response) {
+                    $('#aiResponseModal').modal('hide');
                     $route.reload();
-
                 });
             }
         };
