@@ -1,0 +1,29 @@
+{
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "jquery": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "undef": true,
+    "boss": true,
+    "eqnull": true,
+    "browser": true,
+    "devel": true,
+    "globals": {
+        "angular": true,
+        "eav": true,
+        "_": true,
+        "config": true,
+        "require": true,
+        "define": true,
+        "requirejs": true,
+        "describe": true,
+        "expect": true,
+        "it": true,
+        "module": true,
+        "console":true
+    }
+}
