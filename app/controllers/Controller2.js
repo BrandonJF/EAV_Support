@@ -7,6 +7,6 @@ eav.controller("Controller2", ['$scope', '$http', '$location', 'localStorageServ
         };
 
         $scope.someFunctionWServiceCall = function () {
-            service1.exampleFunction();
+            aiService.exampleFunction();
         };
 }]);
