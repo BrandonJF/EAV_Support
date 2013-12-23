@@ -7,7 +7,7 @@
 <!--<![endif]-->
 
 <head>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>-->
     <script src="js/vendor/angular.js"></script>
     <script src="app/modules/angular-route.min.js"></script>
     <meta charset="utf-8">
@@ -99,17 +99,20 @@
 
         <div class="col-xs-2 leftNav">
             <div class="row userDisplay">
-               <div class="col-xs-12 row">
-               <div class="col-xs-6">Logged In<br><span>{{username}}</span></div>
-               <div class="col-xs-2">
-                 <img class="userImage img-circle" src="http://www.gravatar.com/avatar/25176ebce93f3d774353c18f630b5520.png" alt="" >
-                 </div>
+                <div class="col-xs-12 row">
+                    <div class="col-xs-6">Logged In
+                        <br>
+                        <span>{{username}}</span>
+                    </div>
+                    <div class="col-xs-2">
+                        <img class="userImage img-circle" src="http://www.gravatar.com/avatar/25176ebce93f3d774353c18f630b5520.png" alt="">
+                    </div>
 
 
-               </div>
+                </div>
             </div>
             <ng-include src="'app/views/leftNav.htm'">
-                </ng-include>
+            </ng-include>
         </div>
         <div class="col-xs-10 contentArea" ng-view ng-cloak></div>
 
