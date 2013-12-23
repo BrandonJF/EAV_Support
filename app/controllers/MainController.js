@@ -9,11 +9,11 @@ eav.controller("MainController", ['$scope', '$http', '$location', 'localStorageS
         $scope.username = config.username;
         $scope.navigateTo = function (path) {
             $location.path(path);
-        }
+        };
 
         $scope.openOnSupport = function(aiNumber){
          aiService.openUserAi(aiNumber);
-        }
+        };
 
 
 
