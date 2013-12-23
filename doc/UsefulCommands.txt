@@ -1,0 +1,2 @@
+# Get Angular Services
+angular.element($('#eav')).injector().get("aiService")
