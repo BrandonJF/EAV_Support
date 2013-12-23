@@ -32,6 +32,7 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
+.k-editor .k-raw-content,.k-editor-dialog .k-editor-textarea{font-size:inherit;font-family:'Open Sans', consolas,"courier new",monospace}
 html,
 body {
     height: 100%;
@@ -270,7 +271,7 @@ background:url("../img/wood_pattern.png");
 color:#248FAF;
 font-size: 14px;
 margin-right: 4px;
-vertical-align: top;
+vertical-align: text-top;
 }
 
 .timeStamp{
