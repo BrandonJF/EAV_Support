@@ -1,6 +1,6 @@
 <div class="row contentHeader">
     <div class="col-xs-6">
-        <i class="fa fa-tasks cntHeaderIcon"></i>Action Items - {{progress}}% Achievement Rating
+        <i class="fa fa-tasks cntHeaderIcon"></i>Action Items - {{progress}}% Complete
     </div>
       <div class="col-xs-offset-4 col-xs-2">
       <form ng-submit="searchUserAi(searchAiNumber)">
@@ -18,8 +18,8 @@
 <div class="col-xs-2 contentBox clientListBox">
     <h1>Client List</h1>
     <ul class="nav nav-pills nav-stacked">
-  <li class="active" ng-click="setAiFilter()"><a>ALL</a></li>
-  <li ng-repeat="ai in aiList | unique:'NAMEFIND' | orderBy:'NAMEFIND'" ng-click="setAiFilter(ai.NAMEFIND)"><a>{{ai.NAMEFIND}}</a></li>
+  <li ng-class="{active: filterAisBy == ''}" ng-click="setAiFilter()"><a>ALL</a></li>
+  <li ng-repeat="ai in aiList | unique:'NAMEFIND' | orderBy:'NAMEFIND'" ng-click="setAiFilter(ai.NAMEFIND)" ng-class="{active: ai.NAMEFIND == filterAisBy}"><a>{{ai.NAMEFIND}}</a></li>
 
 </ul>
 
@@ -45,14 +45,69 @@
 <div class="col-xs-6 contentBox aiDetailBox">
     <h1>Details</h1>
      <button class="btn btn-default" style="margin-bottom:5px;" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)"><i class="fa fa-globe"></i> {{ai.NAMEFIND}} {{ai.LISTITEMNUM}}</button>
-     <button class="btn btn-default pull-right" style="margin-bottom:5px;" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)"><i class="fa fa-arrows-h"></i> </button>
+          <div class="pull-right" style="margin-bottom:5px;">
+          <button class="btn btn-default " data-toggle="modal" data-target="#myModal" >
+   <i class="fa fa-reply"></i>
+</button>
+     <button class="btn btn-default"  type="button" ng-click="openOnSupport(ai.LISTITEMNUM)"><i class="fa fa-arrows-h"></i> </button>
+     </div>
 
     <div id="details">
           <div class="bs-callout bs-callout-info"> {{ai.ACTIONCOMMENTS}}</div>
     </div>
 
 
+
+
 </div>
+
+<div class="modal fade" id="myModal">
+  <form ng-submit="sendAiMessage()" role="form">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Reply to {{ai.NAMEFIND}} #{{ai.LISTITEMNUM}}</h4>
+      </div>
+      <div class="modal-body">
+
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Reply</label>
+   <textarea class="form-control" id="aiMessageEditor" rows="3" ng-model="aiMessage" placeholder="Enter Response Message"></textarea>
+  </div>
+
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Send Email
+    </label>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" >Send Message</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+   </form>
+</div><!-- /.modal -->
 <!--</div>-->
 
 
