@@ -9,6 +9,7 @@
     "grunt-htmlhint": "*",
     "grunt-contrib-watch": "*",
     "matchdep": "*",
-    "grunt-karma": "~0.6.2"
+    "grunt-karma": "~0.6.2",
+    "grunt-jsbeautifier": "~0.2.6"
   }
 }
