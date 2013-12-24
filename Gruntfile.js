@@ -88,6 +88,20 @@ module.exports = function(grunt) {
                 }
             }
         },
+        'sails-linker': {
+            defaultOptions: {
+                options: {
+                    startTag: '<!--SCRIPTS-->',
+                    endTag: '<!--SCRIPTS END-->',
+                    fileTmpl: '<script src="%s"></script>',
+                    appRoot: ''
+                },
+                files: {
+                    // Target-specific file lists and/or options go here.
+                    'index.html': ['app/config/**/*.js','app/controllers/**/*.js', 'app/services/**/*.js']
+                },
+            },
+        },
         karma: {
             unit: {
                 configFile: 'test/karma.config.js',
