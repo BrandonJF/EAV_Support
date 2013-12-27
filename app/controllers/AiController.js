@@ -5,62 +5,42 @@ eav.controller("AiController", ['$scope',
     '$routeParams',
     'localStorageService',
     'aiService',
-    'messageService',
     'userService',
     'aiMetricsService',
-    function($scope,
+    function ($scope,
         $http,
         $route,
         $location,
         $routeParams,
         localStorageService,
         aiService,
-        messageService,
         userService,
         aiMetricsService) {
         $scope.username = userService.getUsername();
-        $scope.unitTestText = "Test";
         $scope.progress = null;
 
-        $scope.$on('$viewContentLoaded', function() {
-            $(function() {
+        $scope.$on('$viewContentLoaded', function () {
+            $(function () {
                 // Initialize the Kendo DatePicker by calling the kendoDatePicker jQuery plugin
                 $("#aiMessageEditor").kendoEditor({
                     encoded: false
                 });
             });
         });
-
-        $scope.sendAiMessage = function() {
-            if ($scope.aiMessage || $("#aiMessageEditor").val()) {
-                var sendingAi_Promise = messageService.sendAiMessage(($scope.aiMessage || $("#aiMessageEditor").val()), $scope.aiNumber);
-                sendingAi_Promise.then(function(response) {
-                    $('#aiResponseModal').modal('hide');
-                    $route.reload();
-                });
-            }
-        };
-
+        $scope.aiService = aiService;
         $scope.aiList = {};
         $scope.aiMessage = "";
         $scope.filterAisBy = aiService.getAiListFilter();
-
         $scope.aiNumber = $routeParams.aiNumber;
-
-        $scope.setAiFilter = function(filter) {
+        $scope.setAiFilter = function (filter) {
             console.log(filter);
             if (!filter) {
                 filter = "";
             }
             aiService.setAiListFilter(filter);
-
             $scope.filterAisBy = aiService.getAiListFilter();
-
         };
-
-
-
-        aiService.getAiNotes($scope.aiNumber).success(function(data) {
+        aiService.getAiNotes($scope.aiNumber).success(function (data) {
             var note = $(data);
             $("#details").append(note);
             if ($("#details").text().length > 10) {
@@ -71,23 +51,18 @@ eav.controller("AiController", ['$scope',
             }
             $scope.getDetails();
         });
-
-        $scope.getDetails = function() {
+        $scope.getDetails = function () {
             if ($scope.aiNumber) {
-                aiService.getAiDetails($scope.aiNumber).success(function(data) {
+                aiService.getAiDetails($scope.aiNumber).success(function (data) {
                     $scope.ai = aiService.modifyAi(data);
-
                 });
             }
         };
-
-
-
-        $scope.modifyDetails = function() {
+        $scope.modifyDetails = function () {
             $("#details").find("*").removeAttr("style bgcolor color");
             var noteHeaders = $("#details table");
             var notesAmt = noteHeaders.length;
-            $.each(noteHeaders, function(index, noteHeader) {
+            $.each(noteHeaders, function (index, noteHeader) {
                 var $noteHeader = $(noteHeader).addClass("noteHeader panel-heading");
                 //$noteHeader.addClass("noteHeader panel-heading");
                 if (index < notesAmt) {
@@ -103,19 +78,16 @@ eav.controller("AiController", ['$scope',
                 $noteHeader.prepend("<i class='fa fa-user'></i>").append("<span class='timeStamp'>" + timeStamp + "</span>");
             });
         };
-
-        aiService.getUserAis($scope.username).success(function(data, status) {
+        aiService.getUserAis($scope.username).success(function (data, status) {
             $scope.aiList = aiService.modifyAis(data.actionItems);
             $scope.progress = aiMetricsService.calcProgress(data.actionItems);
         });
-
-        $scope.searchUserAi = function(aiNumber) {
+        $scope.searchUserAi = function (aiNumber) {
             if (aiNumber.indexOf("user/") === -1) {
                 $scope.navigateTo('/ai/' + aiNumber);
             } else {
                 localStorageService.add("username", aiNumber.split("/")[1]);
                 window.location.reload();
-
             }
         };
     }
