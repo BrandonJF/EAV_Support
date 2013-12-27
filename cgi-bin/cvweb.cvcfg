@@ -1,5 +1,5 @@
 [DEFAULT]
-DATADIR=D:\inetpub\wwwroot\EuclidWebsite\cvbase_support\cgi-bin\ERRORLOG\
+DATADIR=C:\inetpub\wwwroot\eav\doc
 ONLINEPAYMENTTYPE=PAYPAL
 LOGINURL=https://www.euclidtechnology.com/cvweb/cgi-bin/utilities.dll/openpage?wrp=mainlogin.htm
 --RESTRICTALLDLL=ML
@@ -73,7 +73,7 @@ POOLINGVALIDATE=Y
 MAXPOOLSIZE=500
 POOLCONNECTIONLIFETIME=0
 [EMAIL]
-EMAILDIR=C:\inetpub\mailroot\Pickup\
+EMAILDIR=C:\inetpub\wwwroot\eav\doc
 FROMNAME=Euclid Technology
 FROMADDRESS=support@euclidtechnology.com
 USESMTP=Y

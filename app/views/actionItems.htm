@@ -64,10 +64,10 @@
         <button class="btn btn-default " data-toggle="modal" data-target="#aiResponseModal">
             <i class="fa fa-reply"></i>
         </button>
-        <button class="btn btn-default" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)">
+        <button class="btn btn-default" type="button" ng-click="openOnSupport(ai.LISTITEMNUM);">
             <i class="fa fa-arrows-h"></i>
         </button>
-        <button class="btn btn-default" type="button" ng-click="aiService.toggleBookmark(ai)">
+        <button class="btn btn-default" type="button" ng-click="aiService.toggleBookmark(ai);">
             <i class=" fa fa-bookmark-o" ng-hide="ai.bookmarked"></i>
             <i class="fa fa-bookmark" ng-hide="ai.bookmarked !== true"></i>
         </button>
@@ -82,7 +82,7 @@
 
 </div>
 
-<div class="modal fade" id="aiResponseModal">
+<div class="modal fade" id="aiResponseModal" ng-controller="AiMessageController">
     <form ng-submit="sendAiMessage()" role="form">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -106,7 +106,8 @@
 
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox">Send Email
+
+                            <input type="checkbox" ng-model="emailConfig.SENDEMAIL_Check">Send Email  {{emailConfig.SENDEMAIL_Check}}
                         </label>
                     </div>
                 </div>
