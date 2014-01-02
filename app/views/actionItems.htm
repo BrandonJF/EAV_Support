@@ -30,7 +30,6 @@
             <li ng-repeat="ai in aiList | unique:'NAMEFIND' | orderBy:'NAMEFIND'" ng-click="setAiFilter(ai.NAMEFIND)" ng-class="{active: ai.NAMEFIND == filterAisBy}">
                 <a>{{ai.NAMEFIND}}</a>
             </li>
-
     </ul>
 
 </div>
@@ -58,11 +57,15 @@
 
 <div class="col-xs-6 contentBox aiDetailBox">
     <h1>Details</h1>
+
     <button class="btn btn-default" style="margin-bottom:5px;" type="button" ng-click="openOnSupport(ai.LISTITEMNUM)">
-        <i class="fa fa-globe"></i> {{ai.NAMEFIND}} {{ai.LISTITEMNUM}}</button>
+        <i class="fa fa-globe"></i>{{ai.NAMEFIND}} {{ai.LISTITEMNUM}}</button>
     <div class="pull-right" style="margin-bottom:5px;">
         <button class="btn btn-default " data-toggle="modal" data-target="#aiResponseModal">
             <i class="fa fa-reply"></i>
+        </button>
+        <button class="btn btn-default " data-toggle="modal" data-target="#aiDocModal">
+            <i class="fa fa-files-o"></i>
         </button>
         <button class="btn btn-default" type="button" ng-click="openOnSupport(ai.LISTITEMNUM);">
             <i class="fa fa-arrows-h"></i>
@@ -72,7 +75,6 @@
             <i class="fa fa-bookmark" ng-hide="ai.bookmarked !== true"></i>
         </button>
     </div>
-
     <div id="details">
         <div class="bs-callout bs-callout-info">{{ai.ACTIONCOMMENTS}}</div>
     </div>
@@ -107,7 +109,7 @@
                     <div class="checkbox">
                         <label>
 
-                            <input type="checkbox" ng-model="emailConfig.SENDEMAIL_Check">Send Email  {{emailConfig.SENDEMAIL_Check}}
+                            <input type="checkbox" ng-model="emailConfig.SENDEMAIL_Check">Send Email {{emailConfig.SENDEMAIL_Check}}
                         </label>
                     </div>
                 </div>
@@ -123,5 +125,43 @@
 </div>
 <!-- /.modal -->
 <!--</div>-->
+<div class="modal fade" id="aiDocModal">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Documents for #{{ai.LISTITEMNUM}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-hover">
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Owner</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="doc in docs.docs">
+                        <td>{{doc.TITLETXT}}</td>
+                        <td>{{doc.DOCDATE}}</td>
+                        <td>{{doc.OWNERNAME}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" ng-click="downloadDoc(doc.FILENAME)">Download</button>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+
+</div>
 
 

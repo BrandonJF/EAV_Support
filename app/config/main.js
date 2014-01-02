@@ -9,9 +9,9 @@
 
  //[Configuration Section]
  var config = {};
- config["username"] = "BJOHNFRESO";
+ config["username"] = "JWU";
  config["baseurl"] = "http://localhost";
-
+ config["fileurl"] = "https://www.euclidtechnology.com/cvweb/ai_documents/2009/";
  //Misc Utilities used throughout code.
 
  Date.prototype.defaultView = function() {

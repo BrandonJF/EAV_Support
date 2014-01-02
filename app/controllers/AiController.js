@@ -32,6 +32,8 @@ eav.controller("AiController", ['$scope',
         $scope.aiMessage = "";
         $scope.filterAisBy = aiService.getAiListFilter();
         $scope.aiNumber = $routeParams.aiNumber;
+        $scope.docs = {};
+
         $scope.setAiFilter = function (filter) {
             console.log(filter);
             if (!filter) {
@@ -51,6 +53,12 @@ eav.controller("AiController", ['$scope',
             }
             $scope.getDetails();
         });
+        aiService.getAiDocs($scope.aiNumber).success(function (data){
+           $scope.docs = data; 
+        });
+        $scope.downloadDoc = aiService.openAiDoc;
+        
+        
         $scope.getDetails = function () {
             if ($scope.aiNumber) {
                 aiService.getAiDetails($scope.aiNumber).success(function (data) {

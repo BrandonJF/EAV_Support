@@ -44,6 +44,20 @@ eav.factory("aiService", function($http, localStorageService, userService) {
                 }
             });
         },
+        getAiDocs: function(aiNumber) {
+            return $http({
+                url: config.baseurl + "/eav/cgi-bin/actionitemsdll.dll/info?",
+                method: 'GET',
+                params: {
+                    "LISTITEMNUM": aiNumber,
+                    "WMT": "none",
+                    "RESPONSEPAGE": "docs_JSON.json",
+                }
+            });
+        },
+        openAiDoc: function(fileName){
+            window.open(config.fileurl + fileName, '_blank');
+        },
         getBookmarks: function() {
             //console.log("getBookmarks Called.");
             return aiService.bookmarks;
