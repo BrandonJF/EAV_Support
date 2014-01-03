@@ -64,12 +64,14 @@
         <button class="btn btn-default " data-toggle="modal" data-target="#aiResponseModal">
             <i class="fa fa-reply"></i>
         </button>
-        <button class="btn btn-default " data-toggle="modal" data-target="#aiDocModal">
+        <button class="btn btn-default ng-hide" data-toggle="modal" data-target="#aiDocModal" ng-show="docs.files.length" ng-cloak>
             <i class="fa fa-files-o"></i>
         </button>
+<!--
         <button class="btn btn-default" type="button" ng-click="openOnSupport(ai.LISTITEMNUM);">
             <i class="fa fa-arrows-h"></i>
         </button>
+-->
         <button class="btn btn-default" type="button" ng-click="aiService.toggleBookmark(ai);">
             <i class=" fa fa-bookmark-o" ng-hide="ai.bookmarked"></i>
             <i class="fa fa-bookmark" ng-hide="ai.bookmarked !== true"></i>
@@ -142,10 +144,17 @@
                         <th>Owner</th>
                         <th></th>
                     </tr>
+<<<<<<< HEAD
                     <tr ng-repeat="doc in docs.docs">
                         <td>{{doc.TITLETXT}}</td>
                         <td>{{doc.DOCDATE}}</td>
                         <td>{{doc.OWNERNAME}}</td>
+=======
+                    <tr ng-repeat="file in docs.files">
+                        <td>{{file.TITLETXT}}</td>
+                        <td>{{file.DOCDATE}}</td>
+                        <td>{{file.OWNERNAME}}</td>
+>>>>>>> ee264e8795c47552b2504097c82efe2012ab2dff
                         <td>
                             <button type="button" class="btn btn-primary" ng-click="downloadDoc(doc.FILENAME)">Download</button>
                         </td>
