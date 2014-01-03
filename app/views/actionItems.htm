@@ -144,18 +144,13 @@
                         <th>Owner</th>
                         <th></th>
                     </tr>
-                    <<<<<<< HEAD <tr ng-repeat="doc in docs.docs">
-                        <td>{{doc.TITLETXT}}</td>
-                        <td>{{doc.DOCDATE}}</td>
-                        <td>{{doc.OWNERNAME}}</td>
-                        =======
                         <tr ng-repeat="file in docs.files">
                             <td>{{file.TITLETXT}}</td>
                             <td>{{file.DOCDATE}}</td>
                             <td>{{file.OWNERNAME}}</td>
-                            >>>>>>> ee264e8795c47552b2504097c82efe2012ab2dff
+
                             <td>
-                                <button type="button" class="btn btn-primary" ng-click="downloadDoc(doc.FILENAME)">Download</button>
+                                <button type="button" class="btn btn-primary" ng-click="downloadDoc(file.FILENAME)">Download</button>
                             </td>
                         </tr>
                 </table>
