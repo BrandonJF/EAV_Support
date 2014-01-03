@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     // Target-specific file lists and/or options go here.
-                    'index.html': ['app/config/**/*.js','app/controllers/**/*.js', 'app/services/**/*.js']
+                    'index.html': ['app/config/**/*.js', 'app/controllers/**/*.js', 'app/services/**/*.js']
                 },
             },
         },

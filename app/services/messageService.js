@@ -33,7 +33,7 @@ eav.factory("messageService", function($http) {
             var promise = $http({
                 url: config.baseurl + '/eav/cgi-bin/msashelpdll.dll/ActionItemUpdate',
                 method: 'get',
-                params:/*Must use lodash to merge objects*/ _.assign({
+                params: /*Must use lodash to merge objects*/ _.assign({
                     "CUSTOMERCD": "502508",
                     "listitemnum": aiNumber,
                     "WMT": "none",

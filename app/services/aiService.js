@@ -55,7 +55,7 @@ eav.factory("aiService", function($http, localStorageService, userService) {
                 }
             });
         },
-        openAiDoc: function(fileName){
+        openAiDoc: function(fileName) {
             window.open(config.fileurl + fileName, '_blank');
         },
         getBookmarks: function() {

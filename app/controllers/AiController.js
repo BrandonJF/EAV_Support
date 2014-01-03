@@ -7,7 +7,7 @@ eav.controller("AiController", ['$scope',
     'aiService',
     'userService',
     'aiMetricsService',
-    function ($scope,
+    function($scope,
         $http,
         $route,
         $location,
@@ -19,8 +19,8 @@ eav.controller("AiController", ['$scope',
         $scope.username = userService.getUsername();
         $scope.progress = null;
 
-        $scope.$on('$viewContentLoaded', function () {
-            $(function () {
+        $scope.$on('$viewContentLoaded', function() {
+            $(function() {
                 // Initialize the Kendo DatePicker by calling the kendoDatePicker jQuery plugin
                 $("#aiMessageEditor").kendoEditor({
                     encoded: false
@@ -34,7 +34,7 @@ eav.controller("AiController", ['$scope',
         $scope.aiNumber = $routeParams.aiNumber;
         $scope.docs = {};
 
-        $scope.setAiFilter = function (filter) {
+        $scope.setAiFilter = function(filter) {
             console.log(filter);
             if (!filter) {
                 filter = "";
@@ -42,7 +42,7 @@ eav.controller("AiController", ['$scope',
             aiService.setAiListFilter(filter);
             $scope.filterAisBy = aiService.getAiListFilter();
         };
-        aiService.getAiNotes($scope.aiNumber).success(function (data) {
+        aiService.getAiNotes($scope.aiNumber).success(function(data) {
             var note = $(data);
             $("#details").append(note);
             if ($("#details").text().length > 10) {
@@ -53,24 +53,24 @@ eav.controller("AiController", ['$scope',
             }
             $scope.getDetails();
         });
-        aiService.getAiDocs($scope.aiNumber).success(function (data){
-           $scope.docs = data; 
+        aiService.getAiDocs($scope.aiNumber).success(function(data) {
+            $scope.docs = data;
         });
         $scope.downloadDoc = aiService.openAiDoc;
-        
-        
-        $scope.getDetails = function () {
+
+
+        $scope.getDetails = function() {
             if ($scope.aiNumber) {
-                aiService.getAiDetails($scope.aiNumber).success(function (data) {
+                aiService.getAiDetails($scope.aiNumber).success(function(data) {
                     $scope.ai = aiService.modifyAi(data);
                 });
             }
         };
-        $scope.modifyDetails = function () {
+        $scope.modifyDetails = function() {
             $("#details").find("*").removeAttr("style bgcolor color");
             var noteHeaders = $("#details table");
             var notesAmt = noteHeaders.length;
-            $.each(noteHeaders, function (index, noteHeader) {
+            $.each(noteHeaders, function(index, noteHeader) {
                 var $noteHeader = $(noteHeader).addClass("noteHeader panel-heading");
                 //$noteHeader.addClass("noteHeader panel-heading");
                 if (index < notesAmt) {
@@ -86,11 +86,11 @@ eav.controller("AiController", ['$scope',
                 $noteHeader.prepend("<i class='fa fa-user'></i>").append("<span class='timeStamp'>" + timeStamp + "</span>");
             });
         };
-        aiService.getUserAis($scope.username).success(function (data, status) {
+        aiService.getUserAis($scope.username).success(function(data, status) {
             $scope.aiList = aiService.modifyAis(data.actionItems);
             $scope.progress = aiMetricsService.calcProgress(data.actionItems);
         });
-        $scope.searchUserAi = function (aiNumber) {
+        $scope.searchUserAi = function(aiNumber) {
             if (aiNumber.indexOf("user/") === -1) {
                 $scope.navigateTo('/ai/' + aiNumber);
             } else {
