@@ -9,8 +9,8 @@
 
  //[Configuration Section]
  var config = {};
- config["username"] = localStorage.getItem("eav.username")  || "BJOHNFRESO";
-console.log(localStorage.getItem("eav.username"));
+ config["username"] = localStorage.getItem("eav.username") || "BJOHNFRESO";
+ console.log(localStorage.getItem("eav.username"));
  config["baseurl"] = "http://localhost";
  config["fileurl"] = "https://www.euclidtechnology.com/cvweb/ai_documents/2009/";
  //Misc Utilities used throughout code.
