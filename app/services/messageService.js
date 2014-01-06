@@ -32,8 +32,8 @@ eav.factory("messageService", function($http) {
         uploadAiMessage: function(message, aiNumber, emailConfig) {
             var promise = $http({
                 url: config.baseurl + '/eav/cgi-bin/msashelpdll.dll/ActionItemUpdate',
-                method: 'get',
-                params: /*Must use lodash to merge objects*/ _.assign({
+                method: 'post',
+                data: /*Must use lodash to merge objects*/ _.assign({
                     "CUSTOMERCD": "502508",
                     "listitemnum": aiNumber,
                     "WMT": "none",
