@@ -8,7 +8,8 @@ eav.controller("AiMessageController", ['$scope', '$http', '$location', '$route',
             "EMAILRESPONSEFORMAT": "HTML",
             "EMAILFROMADDRESS": "support@euclidtechnology.com",
             "EMAILREPLYFORM": "AI_update_email.htm",
-            "EMAILREPLYADDRESS": "support@euclidtechnology.com"
+            "EMAILREPLYADDRESS": "support@euclidtechnology.com",
+            "EMAILCCADDRESS":"jwu@euclidtechnology.com"
         };
         $scope.sendAiMessage = function() {
             if ($scope.aiMessage || $("#aiMessageEditor").val()) {
