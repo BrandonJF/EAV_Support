@@ -9,12 +9,18 @@
 
  //[Configuration Section]
  var config = {};
- config["username"] = localStorage.getItem("eav.username") || "BJOHNFRESO";
- console.log(localStorage.getItem("eav.username"));
+ config["username"] = localStorage.getItem("eav.username") || registerNewUser();
  config["baseurl"] = "http://localhost";
  config["fileurl"] = "https://www.euclidtechnology.com/cvweb/ai_documents/2009/";
  //Misc Utilities used throughout code.
 
+
+function registerNewUser(){
+    var username = prompt("What is your username?(e.g. JWU, BJOHNFRESO)");
+    localStorage.setItem("eav.username", username);
+    return username;
+
+}
  Date.prototype.defaultView = function() {
      var dd = this.getDate();
      if (dd < 10) {
